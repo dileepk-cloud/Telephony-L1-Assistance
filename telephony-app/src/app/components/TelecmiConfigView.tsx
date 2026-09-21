@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import InboundConfigTab from './InboundConfigTab';
 
 interface TelecmiConfigViewProps {
   secret: string;
   agentNumber?: string;
+  url?: string;
+  intlEnable?: boolean;
+  intlKey?: string;
+  intlValue?: string;
 }
 
-export default function TelecmiConfigView({ secret, agentNumber }: TelecmiConfigViewProps) {
+export default function TelecmiConfigView({ secret, agentNumber, url, intlEnable, intlKey, intlValue }: TelecmiConfigViewProps) {
+  const [activeTab, setActiveTab] = useState('outbound');
   const [isUserConfigOpen, setIsUserConfigOpen] = useState(false);
   const [isFieldMappingOpen, setIsFieldMappingOpen] = useState(false);
 
@@ -31,14 +37,23 @@ export default function TelecmiConfigView({ secret, agentNumber }: TelecmiConfig
       {/* Main Form Content */}
       <div className="flex-1 overflow-auto">
         {/* Tabs */}
-        <div className="flex space-x-6 px-6 pt-3 text-gray-500 border-b font-medium">
-          <div className="pb-2 border-b-2 border-blue-600 text-gray-800">Outbound Config</div>
-          <div className="pb-2 hover:text-gray-700 cursor-pointer">Inbound Config</div>
-          <div className="pb-2 hover:text-gray-700 cursor-pointer">Call Log API</div>
-          <div className="pb-2 hover:text-gray-700 cursor-pointer">Additional Config</div>
-        </div>
+          <div className="flex space-x-6 px-6 pt-3 text-gray-500 border-b font-medium">
+            <div 
+              className={`pb-2 cursor-pointer ${activeTab === 'outbound' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+              onClick={() => setActiveTab('outbound')}
+            >Outbound Config</div>
+            <div 
+              className={`pb-2 cursor-pointer ${activeTab === 'inbound' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+              onClick={() => setActiveTab('inbound')}
+            >Inbound Config</div>
+            <div className="pb-2 hover:text-gray-700 cursor-pointer">Call Log API</div>
+            <div className="pb-2 hover:text-gray-700 cursor-pointer">Additional Config</div>
+          </div>
 
-        <div className="p-6 space-y-8">
+        {activeTab === 'inbound' && <InboundConfigTab />}
+
+          {activeTab === 'outbound' && (
+          <div className="p-6 space-y-8">
 
           {/* Enable Section */}
           <div className="flex justify-between items-start border-b pb-6">
@@ -95,7 +110,7 @@ export default function TelecmiConfigView({ secret, agentNumber }: TelecmiConfig
                 <span className="text-gray-700">Click To Call (CTC) API URL <span className="text-red-500">*</span></span>
               </div>
               <div className="flex-1">
-                <input type="text" className="w-full border rounded-md p-2 bg-gray-50 text-gray-800" value="https://rest.telecmi.com/v2/external/click2call" readOnly />
+                <input type="text" className="w-full border rounded-md p-2 bg-gray-50 text-gray-800" value={url || "https://rest.telecmi.com/v2/external/click2call"} readOnly />
               </div>
             </div>
           </div>
@@ -224,39 +239,42 @@ export default function TelecmiConfigView({ secret, agentNumber }: TelecmiConfig
               </div>
             </div>
 
-            <div className="flex items-center mt-6">
-              <div className="w-1/3">
-                <span className="text-gray-700">International Calling Enable</span>
-              </div>
-              <div className="flex-1">
-                <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
-                  <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+            {intlEnable && (
+              <>
+                <div className="flex items-center mt-6">
+                  <div className="w-1/3">
+                    <span className="text-gray-700">International Calling Enable</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
+                      <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="flex items-center mt-4">
-              <div className="w-1/3">
-                <span className="text-gray-700">International Calling key</span>
-              </div>
-              <div className="flex-1">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" />
-              </div>
-            </div>
-
-            <div className="flex items-center mt-4">
-              <div className="w-1/3">
-                <span className="text-gray-700">International Calling Value Encode</span>
-              </div>
-              <div className="flex-1">
-                <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
-                  <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                <div className="flex items-center mt-4">
+                  <div className="w-1/3">
+                    <span className="text-gray-700">International Calling key</span>
+                  </div>
+                  <div className="flex-1">
+                    <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value={intlKey} readOnly />
+                  </div>
                 </div>
-              </div>
-            </div>
+
+                <div className="flex items-center mt-4">
+                  <div className="w-1/3">
+                    <span className="text-gray-700">International Calling Value Encode</span>
+                  </div>
+                  <div className="flex-1">
+                    <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value={intlValue} readOnly />
+                  </div>
+                </div>
+              </>
+            )}
 
           </div>
         </div>
+        )}
       </div>
 
       {/* User Config Modal Overlay */}

@@ -191,6 +191,30 @@ export async function POST(request: NextRequest) {
           mode
         }
       });
+    } else if (vendor === 'MCUBE') {
+      const curlStr = curlCommand as string;
+
+      let clickToCallUrl = "";
+      const urlMatch = curlStr.match(/--location\s+['"]([^'"]+)['"]/i) || curlStr.match(/curl\s+['"]([^'"]+)['"]/i);
+      if (urlMatch) {
+        clickToCallUrl = urlMatch[1];
+      }
+
+      let httpAuthorization = "";
+      // The authorization might be extracted from the JSON or directly from a match
+      const authMatch = curlStr.match(/"HTTP_AUTHORIZATION"\s*:\s*"([^"]+)"/i);
+      if (authMatch && authMatch[1]) {
+        httpAuthorization = authMatch[1];
+      }
+
+      return NextResponse.json({
+        success: true,
+        vendor: 'MCUBE',
+        data: {
+          clickToCallUrl,
+          httpAuthorization
+        }
+      });
     }
 
     return NextResponse.json(

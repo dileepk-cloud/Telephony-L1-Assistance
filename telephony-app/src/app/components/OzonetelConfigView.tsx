@@ -1,27 +1,39 @@
 "use client";
 
 import React, { useState } from 'react';
+import InboundConfigTab from './InboundConfigTab';
 
 interface OzonetelConfigViewProps {
   configData: {
-    clickToCallUrl: string;
+    configType?: string;
+    clickToCallUrl?: string;
+    campaignUrl?: string;
+    campaignList?: string;
     apiKey: string;
-    mode: string;
+    userName: string;
+    agentId?: string;
+    campaignName?: string;
+    mode?: string;
   };
 }
 
 export default function OzonetelConfigView({ configData }: OzonetelConfigViewProps) {
-  const [activeTab, setActiveTab] = useState<'outbound' | 'inbound' | 'campaign' | 'callLog' | 'additional'>('outbound');
+  const [activeTab, setActiveTab] = useState<'outbound' | 'inbound' | 'campaign' | 'callLog' | 'additional'>(configData.configType === 'Campaign' ? 'campaign' : 'outbound');
   const [isUserConfigOpen, setIsUserConfigOpen] = useState(false);
   const [isFieldMappingOpen, setIsFieldMappingOpen] = useState(false);
 
-  const { clickToCallUrl, apiKey, mode } = configData;
+  React.useEffect(() => {
+    setActiveTab(configData.configType === 'Campaign' ? 'campaign' : 'outbound');
+  }, [configData.configType]);
 
-  const userIdentifierKey = mode === 'AgentManualDial' ? 'agentID' : 'phoneName';
-  const customerIdentifierKey = mode === 'AgentManualDial' ? 'customerNumber' : 'custNumber';
+  const { clickToCallUrl, apiKey, userName, agentId, campaignName, mode, campaignUrl, campaignList } = configData;
+
+  const userIdentifierKey = mode === 'PhoneManualDial' ? 'phoneName' : 'agentID';
+  const customerIdentifierKey = mode === 'PhoneManualDial' ? 'custNumber' : 'customerNumber';
+  const campaignIdentifierValue = mode === 'PhoneManualDial' ? 'Inbound Campaign ID' : 'campaignName';
 
   return (
-    <div className="bg-gray-50 flex-1 relative h-full flex flex-col font-sans relative">
+    <div className="bg-white border rounded-lg shadow-sm font-sans text-sm relative h-[800px] overflow-hidden flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-white border-b sticky top-0 z-10">
         <div className="flex items-center space-x-2 text-xl font-semibold text-gray-800">
@@ -86,6 +98,8 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
             <div className="bg-white border rounded-lg shadow-sm">
               <div className="p-6 space-y-8">
                 
+
+
                 {/* Enable Section */}
                 <div className="flex justify-between items-start border-b pb-6">
                   <div className="space-y-4 w-full">
@@ -141,7 +155,7 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                       <span className="text-gray-700 text-sm">Click To Call (C2C) API URL <span className="text-red-500">*</span></span>
                     </div>
                     <div className="flex-1">
-                      <input type="text" className="w-full border rounded-md p-2 bg-white text-gray-800 text-sm" value={clickToCallUrl} readOnly />
+                      <input type="text" className="w-full border rounded-md p-2 bg-white text-gray-700 text-sm" value={clickToCallUrl || "https://in1-ccaas-api.ozonetel.com/ca_apis/AgentManualDial"} readOnly />
                     </div>
                   </div>
                 </div>
@@ -172,7 +186,7 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                     <div className="flex-1 flex space-x-4">
                       <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="campaignName" readOnly />
                       <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
-                        <span>Inbound Campaign ID</span>
+                        <span>{campaignIdentifierValue}</span>
                         <span className="text-gray-400 text-xs">▼</span>
                       </div>
                     </div>
@@ -213,23 +227,25 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                     <div className="w-1/3"></div>
                     <div className="flex-1 flex space-x-4 items-center">
                       <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="userName" readOnly />
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="npf_whistlingwood" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value={userName || "studyiq_career247"} readOnly />
                       <div className="flex space-x-1 flex-none w-16">
                         <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center mt-3">
-                    <div className="w-1/3"></div>
-                    <div className="flex-1 flex space-x-4 items-center">
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="checkStatus" readOnly />
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="true" readOnly />
-                      <div className="flex space-x-1 flex-none w-16">
-                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                  {mode === 'PhoneManualDial' && (
+                    <div className="flex items-center mt-3">
+                      <div className="w-1/3"></div>
+                      <div className="flex-1 flex space-x-4 items-center">
+                        <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="checkStatus" readOnly />
+                        <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="true" readOnly />
+                        <div className="flex space-x-1 flex-none w-16">
+                          <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="flex items-center mt-3">
                     <div className="w-1/3"></div>
@@ -242,17 +258,7 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                     </div>
                   </div>
 
-                  <div className="flex items-center mt-3">
-                    <div className="w-1/3"></div>
-                    <div className="flex-1 flex space-x-4 items-center">
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="did" readOnly />
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="917965209794" readOnly />
-                      <div className="flex space-x-1 flex-none w-16">
-                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
-                        <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
-                      </div>
-                    </div>
-                  </div>
+
 
                   <div className="flex items-center mt-6">
                     <div className="w-1/3">
@@ -326,7 +332,7 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                     </div>
                     <div className="flex-1 flex space-x-4 items-center">
                       <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="status" readOnly />
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="queued successfully" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value={mode === 'PhoneManualDial' ? 'queued' : 'queued successfully'} readOnly />
                       <div className="flex space-x-1 flex-none w-16">
                         <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
                       </div>
@@ -357,6 +363,294 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                   </div>
                   
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'inbound' && <InboundConfigTab />}
+        {activeTab === 'campaign' && (
+          <div className="p-6">
+            <div className="bg-white border rounded-lg shadow-sm">
+              <div className="p-6 space-y-8">
+                
+                {/* Enable Section */}
+                <div className="flex justify-between items-start border-b pb-6">
+                  <div className="space-y-4 w-full">
+                    <h3 className="font-bold text-gray-800 mb-4">Campaign Calling <br/><span className="text-xs text-gray-500 font-normal">Configure Campaign Calling</span></h3>
+                    
+                    <div className="flex items-center">
+                      <div className="flex items-center space-x-2 w-1/3">
+                        <span className="text-gray-700 text-sm">Enable Campaign Dialer User Configuration</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
+                          <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center mt-2">
+                      <div className="flex items-center space-x-2 w-1/3">
+                        <span className="text-gray-700 text-sm">Enable all mobile type field for campaign calling</span>
+                        <span className="text-gray-400 text-xs">ⓘ</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
+                          <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Request Configuration */}
+                <div className="space-y-4 pt-2 border-b pb-6">
+                  <h3 className="font-bold text-gray-800">Request Configuration</h3>
+                  
+                  <div className="flex items-center mt-2">
+                    <div className="flex items-center space-x-2 w-1/3">
+                      <span className="text-gray-700 text-sm">Request Method</span>
+                      <span className="text-gray-400 text-xs">ⓘ</span>
+                    </div>
+                    <div className="flex-1 flex border rounded-md overflow-hidden bg-gray-50 w-32 flex-none">
+                      <button className="px-4 py-1.5 border-r text-gray-600 w-16 text-sm">Get</button>
+                      <button className="px-4 py-1.5 bg-blue-500 text-white font-medium w-16 text-sm">Post</button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-4">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Campaign Dialer URL <span className="text-red-500">*</span></span>
+                    </div>
+                    <div className="flex-1">
+                      <input type="text" className="w-full border rounded-md p-2 bg-white text-gray-700 text-sm" value={campaignUrl || "https://in1-ccaas-api.ozonetel.com/cloudAgentRestAPI/index.php/AddCampaignBulkDataV4/addBulkData/format/json"} readOnly />
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center mt-4">
+                    <div className="w-1/3 flex items-center space-x-2">
+                      <span className="text-gray-700 text-sm">Use V4 API endpoint</span>
+                      <span className="text-gray-400 text-xs">ⓘ</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
+                        <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-4">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Campaign List <span className="text-red-500">*</span></span>
+                    </div>
+                    <div className="flex-1">
+                      <input type="text" className="w-full border rounded-md p-2 bg-white text-gray-700 text-sm" value={campaignList || "Test_Offline,test-demo,Working-Leads"} readOnly />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Request Parameter */}
+                <div className="space-y-4 pt-4 border-b pb-6">
+                  <h3 className="font-bold text-gray-800">Request Parameter</h3>
+                  
+                  <div className="flex items-center mt-2">
+                    <div className="flex items-center space-x-2 w-1/3">
+                      <span className="text-gray-700 text-sm">Add User Specific Value <span className="text-gray-400 text-xs">ⓘ</span></span>
+                    </div>
+                    <div className="flex-1 flex space-x-4">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="agentNumber" readOnly />
+                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
+                        <span>Agent ID</span>
+                        <span className="text-gray-400 text-xs">▼</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-3">
+                    <div className="flex items-center space-x-2 w-1/3">
+                      <span className="text-gray-700 text-sm">Add User Specific Value <span className="text-gray-400 text-xs">ⓘ</span></span>
+                    </div>
+                    <div className="flex-1 flex space-x-4">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="Enter Key Name" readOnly />
+                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
+                        <span>Select Option</span>
+                        <span className="text-gray-400 text-xs">▼</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-4">
+                    <div className="flex items-center space-x-2 w-1/3">
+                      <span className="text-gray-700 text-sm">Add Lead Specific Value <span className="text-gray-400 text-xs">ⓘ</span></span>
+                    </div>
+                    <div className="flex-1 flex space-x-4">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="PhoneNumber" readOnly />
+                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
+                        <span>Applicant Mobile No</span>
+                        <span className="text-gray-400 text-xs">▼</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-3">
+                    <div className="w-1/3"></div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="Name" readOnly />
+                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
+                        <span>Lead ID</span>
+                        <span className="text-gray-400 text-xs">▼</span>
+                      </div>
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                        <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-6">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Add other parameter(s)</span>
+                    </div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="api_key" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm font-mono truncate" value={apiKey} readOnly />
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-3">
+                    <div className="w-1/3"></div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="userName" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value={userName || "npf_universal"} readOnly />
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-3">
+                    <div className="w-1/3"></div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="checkDuplicate" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="true" readOnly />
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-3">
+                    <div className="w-1/3"></div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="action" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="start" readOnly />
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                        <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-6">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Header(s)</span>
+                    </div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" placeholder="Enter Key" />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" placeholder="Enter Value" />
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Response Configuration */}
+                <div className="space-y-4 pt-4 pb-6 border-b">
+                  <h3 className="font-bold text-gray-800">Response Configuration</h3>
+                  
+                  <div className="flex items-center mt-2">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Response Type</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
+                        <span>Json</span>
+                        <span className="text-gray-400 text-xs">▼</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-4">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Response Matching Type</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed text-sm">
+                        <span>Key/Value</span>
+                        <span className="text-gray-400 text-xs">▼</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-4">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Response Parameter</span>
+                    </div>
+                    <div className="flex-1 flex space-x-4 items-center">
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="status" readOnly />
+                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 text-sm" value="success" readOnly />
+                      <div className="flex space-x-1 flex-none w-16">
+                        <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Lead Allocation Configuration */}
+                <div className="space-y-4 pt-4 pb-8">
+                  <h3 className="font-bold text-gray-800">Lead Allocation Configuration</h3>
+                  
+                  <div className="flex items-center mt-2">
+                    <div className="flex items-center space-x-2 w-1/3">
+                      <span className="text-gray-700 text-sm">Assign Lead/Opportunity To Owner</span>
+                      <span className="text-gray-400 text-xs">ⓘ</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
+                        <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center mt-4">
+                    <div className="flex items-center space-x-2 w-1/3">
+                      <span className="text-gray-700 text-sm">Assign Lead/Opportunity To Another Owner</span>
+                      <span className="text-gray-400 text-xs">ⓘ</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
+                        <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mt-4">
+                    <div className="w-1/3">
+                      <span className="text-gray-700 text-sm">Enable Agent Wise Campaign data push</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
+                        <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -415,20 +709,21 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                   </th>
                   <th className="p-3 border-b font-medium w-1/4">Name</th>
                   <th className="p-3 border-b font-medium w-1/4">Email</th>
-                  <th className="p-3 border-b font-medium">Agent ID</th>
-                  <th className="p-3 border-b font-medium">Inbound Campaign ID</th>
+                  <th className="p-3 border-b font-medium w-1/4">Agent ID</th>
+                  <th className="p-3 border-b font-medium w-1/4">CampaignName</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b hover:bg-gray-50">
                   <td className="p-3"><input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" /></td>
+
                   <td className="p-3 text-gray-800 text-sm">Demo Agent</td>
                   <td className="p-3 text-gray-800 text-sm">demo.agent@example.com</td>
                   <td className="p-3">
-                    <input type="text" className="w-full bg-gray-50 border-0 rounded px-3 py-1.5 text-gray-500 outline-none text-sm" value="08451803850" readOnly />
+                    <input type="text" className="w-full bg-gray-50 border-0 rounded px-3 py-1.5 text-gray-500 outline-none text-sm" value={agentId || "demo.agent"} readOnly />
                   </td>
                   <td className="p-3">
-                    <input type="text" className="w-full bg-gray-50 border-0 rounded px-3 py-1.5 text-gray-500 outline-none text-sm" value="Inbound_917965209794" readOnly />
+                    <input type="text" className="w-full bg-gray-50 border-0 rounded px-3 py-1.5 text-gray-500 outline-none text-sm" value={campaignName || "demo_campaign"} readOnly />
                   </td>
                 </tr>
               </tbody>
@@ -440,7 +735,7 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
       {/* Field Mapping Modal Overlay */}
       {isFieldMappingOpen && (
         <div className="absolute inset-0 bg-black/30 z-20 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-2xl w-full max-w-lg flex flex-col">
+          <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl flex flex-col">
             {/* Modal Header */}
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-xl font-bold text-gray-800">Define Parameter(s) For User</h2>
@@ -453,8 +748,57 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
             </div>
             
             {/* Modal Body */}
-            <div className="p-6 h-[400px]">
-              <p className="text-gray-500 text-sm">Field mapping coming soon...</p>
+            <div className="p-6 space-y-2 h-[400px]">
+              <div className="flex items-center space-x-1 mb-2">
+                <span className="text-gray-700">Request Parameter</span>
+                <span className="text-gray-400 text-xs">ⓘ</span>
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="flex flex-col space-y-1 w-1/3">
+                  <input type="text" className="border rounded p-2 text-gray-700" value="Agent ID" readOnly />
+                  <span className="text-xs text-gray-400">Enter Label</span>
+                </div>
+                <div className="flex flex-col space-y-1 w-1/3">
+                  <input type="text" className="border rounded p-2 text-gray-700" value="agent_id" readOnly />
+                  <span className="text-xs text-gray-400">Enter Key</span>
+                </div>
+                <div className="flex flex-col space-y-1 w-1/4">
+                  <div className="border rounded p-2 flex justify-between items-center text-gray-700 bg-white">
+                    <span>string</span>
+                    <span className="text-gray-400 text-xs">▼</span>
+                  </div>
+                  <span className="text-xs text-gray-400">Select data type</span>
+                </div>
+                <div className="pt-2">
+                  <button className="text-blue-500 bg-blue-50 rounded-full p-1 border border-blue-100">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                  </button>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-4">
+                <div className="flex flex-col space-y-1 w-1/3">
+                  <input type="text" className="border rounded p-2 text-gray-700" value="campaignName" readOnly />
+                </div>
+                <div className="flex flex-col space-y-1 w-1/3">
+                  <input type="text" className="border rounded p-2 text-gray-700" value="campaignName" readOnly />
+                </div>
+                <div className="flex flex-col space-y-1 w-1/4">
+                  <div className="border rounded p-2 flex justify-between items-center text-gray-700 bg-white">
+                    <span>string</span>
+                    <span className="text-gray-400 text-xs">▼</span>
+                  </div>
+                </div>
+                <div className="pt-2 flex space-x-1">
+                  <button className="text-red-500 bg-red-50 p-1 border border-red-100 rounded-full">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4"></path></svg>
+                  </button>
+                  <button className="text-blue-500 bg-blue-50 p-1 border border-blue-100 rounded-full">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

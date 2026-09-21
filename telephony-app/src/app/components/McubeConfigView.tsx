@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import InboundConfigTab from './InboundConfigTab';
 
-interface SmartpingSparcConfigViewProps {
-  authorization: string;
+interface McubeConfigViewProps {
+  configData?: any;
   agentNumber?: string;
-  displayNumber?: string;
-  url?: string;
 }
 
-export default function SmartpingSparcConfigView({ authorization, agentNumber, displayNumber, url }: SmartpingSparcConfigViewProps) {
+export default function McubeConfigView({ configData, agentNumber }: McubeConfigViewProps) {
   const [activeTab, setActiveTab] = useState('outbound');
   const [isUserConfigOpen, setIsUserConfigOpen] = useState(false);
   const [isFieldMappingOpen, setIsFieldMappingOpen] = useState(false);
@@ -18,11 +16,11 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b">
         <div className="flex items-center space-x-2">
-          <span className="font-bold text-gray-800 tracking-wide text-lg">Smartping Sparc</span>
+          <span className="font-bold text-gray-800 tracking-wide text-lg">Mcubesoftphone</span>
         </div>
         <div className="space-x-2">
           <button className="text-blue-600 border border-blue-600 px-3 py-1 rounded hover:bg-blue-50">Virtual Numbers</button>
-          <button 
+          <button
             className="text-blue-600 border border-blue-600 px-3 py-1 rounded hover:bg-blue-50"
             onClick={() => setIsUserConfigOpen(true)}
           >
@@ -52,13 +50,13 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
 
           {activeTab === 'outbound' && (
           <div className="p-6 space-y-8">
-          
+
           {/* Enable Section */}
           <div className="flex justify-between items-start border-b pb-6">
             <div className="space-y-4 w-full">
               <h3 className="font-bold text-gray-800">Enable Outbound Configuration</h3>
               <p className="text-xs text-gray-500 -mt-3 mb-2">Configure the Click to Call API for Outbound Calling</p>
-              
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 w-1/3">
                   <span className="text-gray-700">Enable Outbound Configuration</span>
@@ -73,7 +71,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                   <span>📞 Make a Test Call</span>
                 </button>
               </div>
-              
+
               <div className="flex items-center">
                 <div className="flex items-center space-x-2 w-1/3">
                   <span className="text-gray-700">Enable Virtual Number Filtering</span>
@@ -91,7 +89,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
           {/* Request Configuration */}
           <div className="space-y-4">
             <h3 className="font-bold text-gray-800">Request Configuration</h3>
-            
+
             <div className="flex items-center mt-2">
               <div className="flex items-center space-x-2 w-1/3">
                 <span className="text-gray-700">Request Method</span>
@@ -108,7 +106,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                 <span className="text-gray-700">Click To Call (CTC) API URL <span className="text-red-500">*</span></span>
               </div>
               <div className="flex-1">
-                <input type="text" className="w-full border rounded-md p-2 bg-gray-50 text-gray-800" value={url || "https://ccs.sparc.smartping.io/crm-integration/api/v1/phoneBridge/clickToCall"} readOnly />
+                <input type="text" className="w-full border rounded-md p-2 bg-gray-50 text-gray-800" value={configData?.clickToCallUrl || "http://api.mcube.com/Restmcube-api/outbound-calls"} readOnly />
               </div>
             </div>
           </div>
@@ -116,14 +114,14 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
           {/* Request Parameter */}
           <div className="space-y-4 pt-4">
             <h3 className="font-bold text-gray-800">Request Parameter</h3>
-            
+
             <div className="flex items-center mt-2">
               <div className="flex items-center space-x-2 w-1/3">
-                <span className="text-gray-700">Add User Specific Value <span className="text-red-500">*</span></span>
+                <span className="text-gray-700">Add User Specific Value</span>
                 <span className="text-gray-400">ⓘ</span>
               </div>
               <div className="flex-1 flex space-x-4">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="agentIdentifier" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="exenumber" readOnly />
                 <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
                   <span>Agent Number</span>
                   <span className="text-gray-400">▼</span>
@@ -133,25 +131,11 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
 
             <div className="flex items-center mt-4">
               <div className="flex items-center space-x-2 w-1/3">
-                <span className="text-gray-700">Add User Specific Value <span className="text-red-500">*</span></span>
+                <span className="text-gray-700">Add Lead Specific Value</span>
                 <span className="text-gray-400">ⓘ</span>
               </div>
               <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="DisplayNumber" readOnly />
-                <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
-                  <span>Display Number</span>
-                  <span className="text-gray-400">▼</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center mt-4">
-              <div className="flex items-center space-x-2 w-1/3">
-                <span className="text-gray-700">Add Lead Specific Value <span className="text-red-500">*</span></span>
-                <span className="text-gray-400">ⓘ</span>
-              </div>
-              <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="DestinationNumber" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="custnumber" readOnly />
                 <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
                   <span>Applicant Mobile No</span>
                   <span className="text-gray-400">▼</span>
@@ -162,7 +146,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
             <div className="flex items-center mt-4">
               <div className="w-1/3"></div>
               <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="lead_id" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="refid" readOnly />
                 <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
                   <span>Lead ID</span>
                   <span className="text-gray-400">▼</span>
@@ -175,12 +159,24 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
             </div>
 
             <div className="flex items-center mt-4">
+              <div className="w-1/3"></div>
+              <div className="flex-1 flex space-x-4 items-center">
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="url" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="1" readOnly />
+                <div className="flex space-x-2">
+                  <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                  <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center mt-4">
               <div className="w-1/3">
                 <span className="text-gray-700">Add other parameter(s)</span>
               </div>
               <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-400" placeholder="Enter Key Name" readOnly />
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-400" placeholder="Enter Key Value" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="apikey" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-800 font-mono truncate" value={configData?.apiKey || "e28bd91b14bee1293b0c65f225218efd"} readOnly />
                 <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
               </div>
             </div>
@@ -193,8 +189,8 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                 <span className="text-gray-700">Header(s)</span>
               </div>
               <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="Authorization" readOnly />
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white font-mono text-xs overflow-hidden text-ellipsis" value={authorization} title={authorization} readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" placeholder="Enter Key" />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" placeholder="Enter Value" />
                 <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
               </div>
             </div>
@@ -203,7 +199,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
           {/* Response Configuration */}
           <div className="space-y-4 pt-6 pb-8">
             <h3 className="font-bold text-gray-800">Response Configuration</h3>
-            
+
             <div className="flex items-center mt-2">
               <div className="w-1/3">
                 <span className="text-gray-700">Response Type</span>
@@ -233,38 +229,26 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                 <span className="text-gray-700">Response Parameter</span>
               </div>
               <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="status" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="msg" readOnly />
                 <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="success" readOnly />
+                <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
               </div>
             </div>
 
             <div className="flex items-center mt-4">
               <div className="w-1/3">
-              </div>
-              <div className="flex-1 flex space-x-4 items-center">
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="message" readOnly />
-                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="call is initiated." readOnly />
-                <div className="flex space-x-2">
-                  <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
-                  <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center mt-4">
-              <div className="w-1/3">
-                <span className="text-gray-700">Select Form(s)</span>
+                <span className="text-gray-700">Select Forms</span>
               </div>
               <div className="flex-1">
-                <div className="w-1/2 border rounded-md p-2 bg-white text-gray-400 flex justify-between items-center cursor-not-allowed">
-                  <span>Select Here</span>
+                <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
+                  <span>5 Selected</span>
                   <span className="text-gray-400">▼</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center mt-4 border-t pt-4">
-              <div className="flex items-center space-x-2 w-1/3">
+            <div className="flex items-center mt-4">
+              <div className="w-1/3">
                 <span className="text-gray-700">International Calling Enable</span>
               </div>
               <div className="flex-1">
@@ -288,7 +272,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
               <h2 className="text-lg font-bold text-gray-800">User Config</h2>
               <span className="text-xs text-gray-500">- Configure user information</span>
             </div>
-            <button 
+            <button
               className="text-gray-500 hover:text-gray-800 p-1"
               onClick={() => setIsUserConfigOpen(false)}
             >
@@ -303,7 +287,7 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
               <button className="bg-white px-2 text-gray-500"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
               <button className="bg-gray-100 px-2 text-gray-500 border-l"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
-            <button 
+            <button
               className="text-blue-500 border border-blue-400 hover:bg-blue-50 px-3 py-1.5 rounded flex items-center space-x-1"
               onClick={() => setIsFieldMappingOpen(true)}
             >
@@ -326,11 +310,11 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                   </th>
                   <th className="p-3 border-b font-medium">Name</th>
                   <th className="p-3 border-b font-medium">Email</th>
-                  <th className="p-3 border-b font-medium w-1/4">Agent Number</th>
-                  <th className="p-3 border-b font-medium w-1/4">Display Number</th>
+                  <th className="p-3 border-b font-medium w-1/3">Agent Number</th>
                 </tr>
               </thead>
               <tbody>
+                {/* Demo Row */}
                 <tr className="border-b hover:bg-gray-50">
                   <td className="p-3">
                     <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
@@ -339,9 +323,6 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                   <td className="p-3 text-gray-800">demo.agent@example.com</td>
                   <td className="p-3">
                     <input type="text" className="w-full bg-gray-50 border-0 rounded px-3 py-1.5 text-gray-600 outline-none" value={agentNumber} readOnly />
-                  </td>
-                  <td className="p-3">
-                    <input type="text" className="w-full bg-gray-50 border-0 rounded px-3 py-1.5 text-gray-600 outline-none" value={displayNumber} readOnly />
                   </td>
                 </tr>
               </tbody>
@@ -357,21 +338,21 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
             {/* Modal Header */}
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-xl font-bold text-gray-800">Define Parameter(s) For User</h2>
-              <button 
+              <button
                 className="text-gray-500 hover:text-gray-800 p-1"
                 onClick={() => setIsFieldMappingOpen(false)}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
             </div>
-            
+
             {/* Modal Body */}
-            <div className="p-6 space-y-4 h-[400px]">
+            <div className="p-6 space-y-2 h-[400px]">
               <div className="flex items-center space-x-1 mb-2">
                 <span className="text-gray-700">Request Parameter</span>
                 <span className="text-gray-400 text-xs">ⓘ</span>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="flex flex-col space-y-1 w-1/3">
                   <input type="text" className="border rounded p-2 text-gray-700" value="Agent Number" readOnly />
@@ -383,36 +364,17 @@ export default function SmartpingSparcConfigView({ authorization, agentNumber, d
                 </div>
                 <div className="flex flex-col space-y-1 w-1/4">
                   <div className="border rounded p-2 flex justify-between items-center text-gray-700 bg-white">
-                    <span>string</span>
+                    <span>Integer</span>
                     <span className="text-gray-400 text-xs">▼</span>
                   </div>
                   <span className="text-xs text-gray-400">Select data type</span>
                 </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="flex flex-col space-y-1 w-1/3">
-                  <input type="text" className="border rounded p-2 text-gray-700" value="Display Number" readOnly />
-                </div>
-                <div className="flex flex-col space-y-1 w-1/3">
-                  <input type="text" className="border rounded p-2 text-gray-700" value="DisplayNumber" readOnly />
-                </div>
-                <div className="flex flex-col space-y-1 w-1/4">
-                  <div className="border rounded p-2 flex justify-between items-center text-gray-700 bg-white">
-                    <span>string</span>
-                    <span className="text-gray-400 text-xs">▼</span>
-                  </div>
-                </div>
-                <div className="pt-2 flex space-x-2">
-                  <button className="text-red-500 bg-red-50 rounded-full p-1 border border-red-100">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4"></path></svg>
-                  </button>
+                <div className="pt-2">
                   <button className="text-blue-500 bg-blue-50 rounded-full p-1 border border-blue-100">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"></path></svg>
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

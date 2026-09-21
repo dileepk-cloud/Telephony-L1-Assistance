@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import InboundConfigTab from './InboundConfigTab';
 
 interface SmartPingCCConfigViewProps {
+  configType?: string;
   clickToCallUrl?: string;
   clickToCallToken?: string;
   clickToCallLocationId?: string;
   campaignDialerUrl?: string;
-  campaignListId?: string;
+  campaignLists?: string[];
   campaignLocationId?: string;
   campaignTokenId?: string;
   queueName?: string;
@@ -13,19 +15,24 @@ interface SmartPingCCConfigViewProps {
 }
 
 export default function SmartPingCCConfigView({ 
+  configType = "Outbound",
   clickToCallUrl = "",
   clickToCallToken = "", 
   clickToCallLocationId = "",
   campaignDialerUrl = "",
-  campaignListId = "",
+  campaignLists = [],
   campaignLocationId = "",
   campaignTokenId = "",
   queueName = "",
   agentNumber = ""
 }: SmartPingCCConfigViewProps) {
-  const [activeTab, setActiveTab] = useState('Outbound Config');
+  const [activeTab, setActiveTab] = useState(configType === 'Campaign' ? 'Campaign Dialer' : 'Outbound Config');
   const [isUserConfigOpen, setIsUserConfigOpen] = useState(false);
   const [isFieldMappingOpen, setIsFieldMappingOpen] = useState(false);
+
+  React.useEffect(() => {
+    setActiveTab(configType === 'Campaign' ? 'Campaign Dialer' : 'Outbound Config');
+  }, [configType]);
 
   return (
     <div className="bg-white border rounded-lg shadow-sm font-sans text-sm relative h-[800px] overflow-hidden flex flex-col">
@@ -59,7 +66,10 @@ export default function SmartPingCCConfigView({
         >
           Outbound Config
         </div>
-        <div className="pb-2 hover:text-gray-700 cursor-pointer">Inbound Config</div>
+        <div 
+          className={`pb-2 cursor-pointer ${activeTab === 'Inbound Config' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+          onClick={() => setActiveTab('Inbound Config')}
+        >Inbound Config</div>
         <div 
           className={`pb-2 cursor-pointer ${activeTab === 'Campaign Dialer' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
           onClick={() => setActiveTab('Campaign Dialer')}
@@ -71,10 +81,10 @@ export default function SmartPingCCConfigView({
       </div>
 
       {/* Main Form Content */}
-      <div className="flex-1 overflow-auto p-6 space-y-8 bg-white">
-        
+      <div className="flex-1 overflow-auto bg-white">
+        {activeTab === 'Inbound Config' && <InboundConfigTab />}
         {activeTab === 'Outbound Config' && (
-          <>
+          <div className="p-6 space-y-8">
             {/* Enable Section */}
             <div className="flex justify-between items-start border-b pb-6">
               <div className="space-y-4 w-full">
@@ -309,7 +319,7 @@ export default function SmartPingCCConfigView({
               </div>
 
             </div>
-          </>
+          </div>
         )}
 
         {activeTab === 'Campaign Dialer' && (
@@ -332,6 +342,7 @@ export default function SmartPingCCConfigView({
                   </button>
                 </div>
 
+                {/* Enable Section */}
                 <div className="flex items-center">
                   <div className="flex items-center space-x-2 w-1/3">
                     <span className="text-gray-700">Enable Campaign Dialer User Configuration</span>
@@ -379,20 +390,43 @@ export default function SmartPingCCConfigView({
                     </div>
                   </div>
                   
-                  <div className="flex items-center mt-4">
-                    <div className="w-1/4">
-                      <span className="text-gray-700">Campaign List <span className="text-red-500">*</span></span>
-                    </div>
-                    <div className="flex-1 flex space-x-4 items-center">
-                      <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 font-mono text-xs" value={campaignListId} readOnly />
-                      <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex items-center">
-                        Campaign 1
+                  {campaignLists.length > 0 ? (
+                    campaignLists.map((listId, index) => (
+                      <div className="flex items-center mt-4" key={index}>
+                        <div className="w-1/4">
+                          <span className="text-gray-700">Campaign List <span className="text-red-500">*</span></span>
+                        </div>
+                        <div className="flex-1 flex space-x-4 items-center">
+                          <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 font-mono text-xs" value={listId} readOnly />
+                          <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex items-center">
+                            Campaign {index + 1}
+                          </div>
+                          <div className="flex space-x-2">
+                            {index === campaignLists.length - 1 ? (
+                              <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                            ) : (
+                              <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex space-x-2">
-                        <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                    ))
+                  ) : (
+                    <div className="flex items-center mt-4">
+                      <div className="w-1/4">
+                        <span className="text-gray-700">Campaign List <span className="text-red-500">*</span></span>
+                      </div>
+                      <div className="flex-1 flex space-x-4 items-center">
+                        <input type="text" className="w-1/2 border rounded-md p-2 bg-white text-gray-700 font-mono text-xs" value="" readOnly />
+                        <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex items-center">
+                          Campaign 1
+                        </div>
+                        <div className="flex space-x-2">
+                          <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Request Parameter (Campaign Dialer) */}
