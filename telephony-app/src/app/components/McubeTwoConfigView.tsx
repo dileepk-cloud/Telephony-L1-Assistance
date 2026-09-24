@@ -11,7 +11,7 @@ export default function McubeTwoConfigView({ configData, agentNumber }: McubeTwo
   const [isUserConfigOpen, setIsUserConfigOpen] = useState(false);
   const [isFieldMappingOpen, setIsFieldMappingOpen] = useState(false);
 
-  const isCampaign = configData?.configType === 'Campaign';
+  const isCampaign = activeTab === 'campaign';
 
   return (
     <div className="bg-white border rounded-lg shadow-sm font-sans text-sm relative h-[800px] overflow-hidden flex flex-col">
@@ -33,7 +33,37 @@ export default function McubeTwoConfigView({ configData, agentNumber }: McubeTwo
       </div>
 
       {/* Main Form Content */}
-      <div className="flex-1 bg-gray-50/50 flex flex-col min-w-0 overflow-y-auto">
+      <div className="flex-1 overflow-auto bg-gray-50/50 flex flex-col min-w-0">
+        {/* Vendor Portal Native Header & Tabs */}
+        <div className="bg-white pt-4 px-6 border-b shrink-0">
+          <div className="flex items-center space-x-2 mb-4">
+            <svg className="w-5 h-5 text-gray-800 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span className="font-bold text-gray-800 text-lg">Mcubesoftphone</span>
+          </div>
+          
+          <div className="flex space-x-6 text-sm font-medium text-gray-400">
+            <div 
+              className={`pb-2 cursor-pointer ${activeTab === 'outbound' ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-gray-600'}`}
+              onClick={() => setActiveTab('outbound')}
+            >Outbound Config</div>
+            <div 
+              className={`pb-2 cursor-pointer ${activeTab === 'inbound' ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-gray-600'}`}
+              onClick={() => setActiveTab('inbound')}
+            >Inbound Config</div>
+            <div 
+              className={`pb-2 cursor-pointer ${activeTab === 'campaign' ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-gray-600'}`}
+              onClick={() => setActiveTab('campaign')}
+            >Campaign Dialer</div>
+            <div className="pb-2 cursor-pointer hover:text-gray-600">Call Log API</div>
+            <div className="pb-2 cursor-pointer hover:text-gray-600">Additional Config</div>
+          </div>
+        </div>
+
+        {activeTab === 'inbound' && <InboundConfigTab />}
+
+        {(activeTab === 'outbound' || activeTab === 'campaign') && (
         <div className="p-8">
           <div className="bg-white rounded-lg border shadow-sm">
             <div className="p-4 border-b flex justify-between items-center">
@@ -258,6 +288,7 @@ export default function McubeTwoConfigView({ configData, agentNumber }: McubeTwo
             </div>
           </div>
         </div>
+        )}
       </div>
 
       {/* User Config Modal Overlay */}

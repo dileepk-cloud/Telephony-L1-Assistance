@@ -77,16 +77,7 @@ export default function Home() {
         setError('Secret Key must not contain any spaces.');
         return;
       }
-      if (telecmiIntlEnable) {
-        if (!telecmiIntlKey.trim()) {
-          setError('Please provide International Calling Key for Telecmi.');
-          return;
-        }
-        if (/\s/.test(telecmiIntlKey)) {
-          setError('International Calling Key must not contain any spaces.');
-          return;
-        }
-      }
+
       if (!agentNumber.trim()) {
         setError('Please provide Sample Agent Number.');
         return;
@@ -98,10 +89,7 @@ export default function Home() {
         vendor: 'Telecmi',
         data: {
           secret: telecmiSecret,
-          url: telecmiUrl,
-          intlEnable: telecmiIntlEnable,
-          intlKey: telecmiIntlKey,
-          intlValue: telecmiIntlValue
+          url: telecmiUrl
         },
         agentNumber
       });
@@ -526,41 +514,7 @@ export default function Home() {
                     onChange={(e) => setTelecmiSecret(e.target.value)}
                   />
                 </div>
-                <div className="space-y-2 flex-grow">
-                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={telecmiIntlEnable}
-                      onChange={(e) => setTelecmiIntlEnable(e.target.checked)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span>Enable International Calling</span>
-                  </label>
-                </div>
-                {telecmiIntlEnable && (
-                  <>
-                    <div className="space-y-2 flex-grow">
-                      <label className="block text-sm font-semibold text-gray-700">International Calling Key</label>
-                      <input
-                        type="text"
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                        placeholder="Enter Key"
-                        value={telecmiIntlKey}
-                        onChange={(e) => setTelecmiIntlKey(e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2 flex-grow">
-                      <label className="block text-sm font-semibold text-gray-700">International Calling Value Encode</label>
-                      <input
-                        type="text"
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                        placeholder="Enter Value Encode"
-                        value={telecmiIntlValue}
-                        onChange={(e) => setTelecmiIntlValue(e.target.value)}
-                      />
-                    </div>
-                  </>
-                )}
+
               </>
             ) : vendor === 'Smartping Sparc' ? (
               <>
@@ -1157,13 +1111,10 @@ export default function Home() {
 
             <div className="flex-1 bg-gray-100 overflow-auto p-4 relative">
               {configData && configData.vendor === 'Telecmi' ? (
-                <TelecmiConfigView 
-                  secret={configData.data.secret} 
-                  agentNumber={configData.agentNumber} 
-                  url={configData.data.url} 
-                  intlEnable={configData.data.intlEnable}
-                  intlKey={configData.data.intlKey}
-                  intlValue={configData.data.intlValue}
+                <TelecmiConfigView
+                  secret={configData.data.secret}
+                  agentNumber={configData.agentNumber}
+                  url={configData.data.url}
                 />
               ) : configData && configData.vendor === 'Smartping Sparc' ? (
                 <SmartpingSparcConfigView authorization={configData.data.authorization} agentNumber={configData.agentNumber} displayNumber={configData.displayNumber} url={configData.data.url} />

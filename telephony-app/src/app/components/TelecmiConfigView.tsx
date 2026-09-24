@@ -5,12 +5,9 @@ interface TelecmiConfigViewProps {
   secret: string;
   agentNumber?: string;
   url?: string;
-  intlEnable?: boolean;
-  intlKey?: string;
-  intlValue?: string;
 }
 
-export default function TelecmiConfigView({ secret, agentNumber, url, intlEnable, intlKey, intlValue }: TelecmiConfigViewProps) {
+export default function TelecmiConfigView({ secret, agentNumber, url }: TelecmiConfigViewProps) {
   const [activeTab, setActiveTab] = useState('outbound');
   const [isUserConfigOpen, setIsUserConfigOpen] = useState(false);
   const [isFieldMappingOpen, setIsFieldMappingOpen] = useState(false);
@@ -239,38 +236,16 @@ export default function TelecmiConfigView({ secret, agentNumber, url, intlEnable
               </div>
             </div>
 
-            {intlEnable && (
-              <>
-                <div className="flex items-center mt-6">
-                  <div className="w-1/3">
-                    <span className="text-gray-700">International Calling Enable</span>
-                  </div>
-                  <div className="flex-1">
-                    <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
-                      <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
-                    </div>
+              <div className="flex items-center mt-6">
+                <div className="w-1/3">
+                  <span className="text-gray-700">International Calling Enable</span>
+                </div>
+                <div className="flex-1">
+                  <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
+                    <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
                   </div>
                 </div>
-
-                <div className="flex items-center mt-4">
-                  <div className="w-1/3">
-                    <span className="text-gray-700">International Calling key</span>
-                  </div>
-                  <div className="flex-1">
-                    <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value={intlKey} readOnly />
-                  </div>
-                </div>
-
-                <div className="flex items-center mt-4">
-                  <div className="w-1/3">
-                    <span className="text-gray-700">International Calling Value Encode</span>
-                  </div>
-                  <div className="flex-1">
-                    <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value={intlValue} readOnly />
-                  </div>
-                </div>
-              </>
-            )}
+              </div>
 
           </div>
         </div>
