@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Rounded Navy Squircle -->
+  <rect x="4" y="4" width="92" height="92" rx="26" fill="#101B37" />
+  
+  <!-- Connecting Lines -->
+  <line x1="22" y1="34" x2="44" y2="44" stroke="#687A94" stroke-width="3" stroke-linecap="round" />
+  <line x1="18" y1="50" x2="43" y2="50" stroke="#687A94" stroke-width="3" stroke-linecap="round" />
+  <line x1="22" y1="66" x2="44" y2="56" stroke="#687A94" stroke-width="3" stroke-linecap="round" />
+
+  <!-- 3 Left Nodes -->
+  <circle cx="22" cy="34" r="6.5" fill="#3B82F6" />
+  <circle cx="18" cy="50" r="6.5" fill="#F59E0B" />
+  <circle cx="22" cy="66" r="6.5" fill="#EF4444" />
+
+  <!-- Speech Bubble with Tail -->
+  <path d="M 56 28 H 76 C 82 28 87 33 87 39 V 57 C 87 63 82 68 76 68 H 56 L 45 77 L 47 66 C 45.5 64 45 61 45 57 V 39 C 45 33 50 28 56 28 Z" fill="#FFFFFF" />
+
+  <!-- 4 Green Equalizer Bars -->
+  <rect x="53.5" y="44" width="4.5" height="15" rx="2.25" fill="#16A34A" />
+  <rect x="61" y="36" width="4.5" height="25" rx="2.25" fill="#16A34A" />
+  <rect x="68.5" y="40" width="4.5" height="20" rx="2.25" fill="#16A34A" />
+  <rect x="76" y="46" width="4.5" height="12" rx="2.25" fill="#16A34A" />
+</svg>

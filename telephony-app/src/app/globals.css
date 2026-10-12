@@ -1,8 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --portal-card-bg: #FFFFFF;
+  --portal-card-border: #E2E8F0;
+  --portal-input-bg: #FFFFFF;
+  --portal-border: #CBD5E1;
+  --portal-text: #0F172A;
+  --portal-placeholder: #94A3B8;
+  --portal-label: #334155;
+  --portal-canvas-bg: #F1F5F9;
+  --portal-header-bg: #F8FAFC;
+  --portal-muted: #64748B;
+}
+
+:root[data-theme="dark"],
+html.dark {
+  --background: #0A0E1A;
+  --foreground: #F8FAFC;
+  --portal-card-bg: #111728;
+  --portal-card-border: #222E4E;
+  --portal-input-bg: #0B0F1C;
+  --portal-border: #253254;
+  --portal-text: #F8FAFC;
+  --portal-placeholder: #64748B;
+  --portal-label: #CBD5E1;
+  --portal-canvas-bg: #070B14;
+  --portal-header-bg: #0E1424;
+  --portal-muted: #94A3B8;
 }
 
 @theme inline {
@@ -12,15 +38,285 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #222E4E;
+  border-radius: 4px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334370;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Config Agent Form Dynamic Theming */
+#config-agent-form {
+  background: var(--portal-card-bg);
+  border-color: var(--portal-card-border);
+}
+
+#config-agent-form input,
+#config-agent-form select,
+#config-agent-form textarea {
+  background: var(--portal-input-bg) !important;
+  border-color: var(--portal-border) !important;
+  color: var(--portal-text) !important;
+}
+
+#config-agent-form input::placeholder,
+#config-agent-form textarea::placeholder {
+  color: var(--portal-placeholder) !important;
+}
+
+#config-agent-form label {
+  color: var(--portal-label) !important;
+}
+
+/* =========================================================================
+   DARK THEME: Meritto Visual Admin Configuration Simulation
+   Ensures the simulated Meritto Admin Panel is sleek, elegant and comfortable
+   in dark mode, matching the rest of the application without blinding contrast.
+   ========================================================================= */
+
+html.dark #admin-portal-simulation,
+[data-theme="dark"] #admin-portal-simulation {
+  background-color: #111728 !important;
+  border-color: #222E4E !important;
+  color: #ECF0FA !important;
+}
+
+/* Background surfaces */
+html.dark #admin-portal-simulation .bg-white,
+[data-theme="dark"] #admin-portal-simulation .bg-white {
+  background-color: #111728 !important;
+  border-color: #222E4E !important;
+  color: #ECF0FA !important;
+}
+
+html.dark #admin-portal-simulation .bg-gray-50,
+html.dark #admin-portal-simulation [class*="bg-gray-50"],
+[data-theme="dark"] #admin-portal-simulation .bg-gray-50,
+[data-theme="dark"] #admin-portal-simulation [class*="bg-gray-50"] {
+  background-color: #0B0F1C !important;
+  border-color: #222E4E !important;
+  color: #ECF0FA !important;
+}
+
+html.dark #admin-portal-simulation .bg-gray-100,
+html.dark #admin-portal-simulation [class*="bg-gray-100"],
+html.dark #admin-portal-simulation [class*="bg-gray-200"],
+[data-theme="dark"] #admin-portal-simulation .bg-gray-100,
+[data-theme="dark"] #admin-portal-simulation [class*="bg-gray-100"],
+[data-theme="dark"] #admin-portal-simulation [class*="bg-gray-200"] {
+  background-color: #161F38 !important;
+  border-color: #222E4E !important;
+  color: #CBD5E1 !important;
+}
+
+/* Preserve crisp white for toggle knobs */
+html.dark #admin-portal-simulation .rounded-full.bg-white,
+[data-theme="dark"] #admin-portal-simulation .rounded-full.bg-white {
+  background-color: #FFFFFF !important;
+}
+
+/* Typography */
+html.dark #admin-portal-simulation .text-gray-800,
+html.dark #admin-portal-simulation .text-gray-900,
+[data-theme="dark"] #admin-portal-simulation .text-gray-800,
+[data-theme="dark"] #admin-portal-simulation .text-gray-900 {
+  color: #F8FAFC !important;
+}
+
+html.dark #admin-portal-simulation .text-gray-700,
+[data-theme="dark"] #admin-portal-simulation .text-gray-700 {
+  color: #CBD5E1 !important;
+}
+
+html.dark #admin-portal-simulation .text-gray-600,
+html.dark #admin-portal-simulation .text-gray-500,
+[data-theme="dark"] #admin-portal-simulation .text-gray-600,
+[data-theme="dark"] #admin-portal-simulation .text-gray-500 {
+  color: #94A3B8 !important;
+}
+
+html.dark #admin-portal-simulation .text-gray-400,
+[data-theme="dark"] #admin-portal-simulation .text-gray-400 {
+  color: #64748B !important;
+}
+
+/* Borders */
+html.dark #admin-portal-simulation .border,
+html.dark #admin-portal-simulation .border-b,
+html.dark #admin-portal-simulation .border-t,
+html.dark #admin-portal-simulation .border-r,
+html.dark #admin-portal-simulation .border-l,
+html.dark #admin-portal-simulation .border-gray-200,
+html.dark #admin-portal-simulation .border-gray-300,
+[data-theme="dark"] #admin-portal-simulation .border,
+[data-theme="dark"] #admin-portal-simulation .border-b,
+[data-theme="dark"] #admin-portal-simulation .border-t,
+[data-theme="dark"] #admin-portal-simulation .border-r,
+[data-theme="dark"] #admin-portal-simulation .border-l,
+[data-theme="dark"] #admin-portal-simulation .border-gray-200,
+[data-theme="dark"] #admin-portal-simulation .border-gray-300 {
+  border-color: #222E4E !important;
+}
+
+/* Form inputs & simulated controls */
+html.dark #admin-portal-simulation input,
+html.dark #admin-portal-simulation select,
+html.dark #admin-portal-simulation textarea,
+[data-theme="dark"] #admin-portal-simulation input,
+[data-theme="dark"] #admin-portal-simulation select,
+[data-theme="dark"] #admin-portal-simulation textarea {
+  background-color: #0B0F1C !important;
+  border-color: #222E4E !important;
+  color: #F8FAFC !important;
+}
+
+html.dark #admin-portal-simulation input:disabled,
+html.dark #admin-portal-simulation input[readonly],
+[data-theme="dark"] #admin-portal-simulation input:disabled,
+[data-theme="dark"] #admin-portal-simulation input[readonly] {
+  background-color: #0F1629 !important;
+  color: #94A3B8 !important;
+  border-color: #1E2846 !important;
+}
+
+html.dark #admin-portal-simulation input::placeholder,
+html.dark #admin-portal-simulation textarea::placeholder,
+[data-theme="dark"] #admin-portal-simulation input::placeholder,
+[data-theme="dark"] #admin-portal-simulation textarea::placeholder {
+  color: #64748B !important;
+}
+
+html.dark #admin-portal-simulation select option,
+[data-theme="dark"] #admin-portal-simulation select option {
+  background-color: #0B0F1C !important;
+  color: #F8FAFC !important;
+}
+
+/* Virtual Number Toggle off state */
+html.dark #admin-portal-simulation .bg-gray-300,
+[data-theme="dark"] #admin-portal-simulation .bg-gray-300 {
+  background-color: #334155 !important;
+}
+
+/* Tabs */
+html.dark #admin-portal-simulation .border-blue-600,
+[data-theme="dark"] #admin-portal-simulation .border-blue-600 {
+  border-color: #3B82F6 !important;
+}
+
+/* Plus/Minus badge buttons */
+html.dark #admin-portal-simulation .bg-blue-50,
+[data-theme="dark"] #admin-portal-simulation .bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  color: #60A5FA !important;
+}
+
+html.dark #admin-portal-simulation .bg-red-50,
+[data-theme="dark"] #admin-portal-simulation .bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  color: #F87171 !important;
+}
+
+html.dark #admin-portal-simulation .text-blue-500,
+html.dark #admin-portal-simulation .text-blue-600,
+[data-theme="dark"] #admin-portal-simulation .text-blue-500,
+[data-theme="dark"] #admin-portal-simulation .text-blue-600 {
+  color: #60A5FA !important;
+}
+
+html.dark #admin-portal-simulation .border-blue-400,
+html.dark #admin-portal-simulation .border-blue-500,
+html.dark #admin-portal-simulation .border-blue-600,
+[data-theme="dark"] #admin-portal-simulation .border-blue-400,
+[data-theme="dark"] #admin-portal-simulation .border-blue-500,
+[data-theme="dark"] #admin-portal-simulation .border-blue-600 {
+  border-color: rgba(96, 165, 250, 0.4) !important;
+}
+
+html.dark #admin-portal-simulation .hover\:bg-blue-50:hover,
+[data-theme="dark"] #admin-portal-simulation .hover\:bg-blue-50:hover {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+html.dark #admin-portal-simulation .hover\:text-gray-700:hover,
+html.dark #admin-portal-simulation .hover\:text-gray-800:hover,
+[data-theme="dark"] #admin-portal-simulation .hover\:text-gray-700:hover,
+[data-theme="dark"] #admin-portal-simulation .hover\:text-gray-800:hover {
+  color: #F8FAFC !important;
+}
+
+/* Modals */
+html.dark #admin-portal-simulation .bg-black\/50,
+html.dark #admin-portal-simulation .bg-black\/40,
+html.dark #admin-portal-simulation .bg-black\/30,
+[data-theme="dark"] #admin-portal-simulation .bg-black\/50,
+[data-theme="dark"] #admin-portal-simulation .bg-black\/40,
+[data-theme="dark"] #admin-portal-simulation .bg-black\/30 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Tables inside modals & simulation */
+html.dark #admin-portal-simulation table th,
+[data-theme="dark"] #admin-portal-simulation table th {
+  background-color: #0E1424 !important;
+  color: #94A3B8 !important;
+  border-color: #222E4E !important;
+}
+
+html.dark #admin-portal-simulation table td,
+[data-theme="dark"] #admin-portal-simulation table td {
+  border-color: #222E4E !important;
+  color: #CBD5E1 !important;
+}
+
+html.dark #admin-portal-simulation tr:hover.hover\:bg-gray-50,
+[data-theme="dark"] #admin-portal-simulation tr:hover.hover\:bg-gray-50 {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Scrollbars */
+html.dark #admin-portal-simulation *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+html.dark #admin-portal-simulation *::-webkit-scrollbar-track {
+  background: #0B0F1C;
+}
+html.dark #admin-portal-simulation *::-webkit-scrollbar-thumb {
+  background: #222E4E;
+  border-radius: 9999px;
+}
+html.dark #admin-portal-simulation *::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
