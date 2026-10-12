@@ -215,6 +215,94 @@ export async function POST(request: NextRequest) {
           httpAuthorization
         }
       });
+    } else if (vendor === 'SR Knowlarity') {
+      const curlStr = curlCommand as string;
+      
+      let authorization = "";
+      const authMatch = curlStr.match(/--header\s+['"]Authorization:\s*([^'"]+)['"]/i) || 
+                        curlStr.match(/-H\s+['"]Authorization:\s*([^'"]+)['"]/i);
+      if (authMatch && authMatch[1]) {
+        authorization = authMatch[1].trim();
+      }
+
+      let apiKey = "";
+      const apiMatch = curlStr.match(/--header\s+['"](?:x-api-key|x api key):\s*([^'"]+)['"]/i) || 
+                       curlStr.match(/-H\s+['"](?:x-api-key|x api key):\s*([^'"]+)['"]/i);
+      if (apiMatch && apiMatch[1]) {
+        apiKey = apiMatch[1].trim();
+      }
+
+      let kNumber = "";
+      const kMatch = curlStr.match(/["']k_number["']\s*:\s*["']?([^"',}\s]+)["']?/i);
+      if (kMatch && kMatch[1]) {
+        kNumber = kMatch[1].trim();
+      }
+
+      let url = "";
+      const urlMatch = curlStr.match(/--location\s+['"]([^'"]+)['"]/i) || curlStr.match(/curl\s+['"]([^'"]+)['"]/i);
+      if (urlMatch && urlMatch[1]) {
+        url = urlMatch[1].trim();
+      }
+
+      return NextResponse.json({
+        success: true,
+        vendor: 'SR Knowlarity',
+        data: {
+          url: url || '',
+          kNumber: kNumber || '18002746969',
+          authorization: authorization || '3e78e617-ca74-11e5-8001-067cf20e9301',
+          apiKey: apiKey || 'IUYQbrmannU2ClzWsVei9v33Pc1xTayKp2RiJai7d',
+          streamingAuthKey: authorization || '3e78e617-ca74-11e5-8001-067cf20e9301'
+        }
+      });
+    } else if (vendor === 'Tatatel') {
+      const curlStr = curlCommand as string;
+      
+      let authorization = "";
+      const authMatch = curlStr.match(/--header\s+['"]Authorization:\s*([^'"]+)['"]/i) || 
+                        curlStr.match(/-H\s+['"]Authorization:\s*([^'"]+)['"]/i);
+      if (authMatch && authMatch[1]) {
+        authorization = authMatch[1].trim();
+      }
+
+      let url = "";
+      const urlMatch = curlStr.match(/--location\s+['"]([^'"]+)['"]/i) || curlStr.match(/curl\s+['"]([^'"]+)['"]/i);
+      if (urlMatch && urlMatch[1]) {
+        url = urlMatch[1].trim();
+      }
+
+      return NextResponse.json({
+        success: true,
+        vendor: 'Tatatel',
+        data: {
+          url: url || '',
+          authorization: authorization || ''
+        }
+      });
+    } else if (vendor === 'Acefone') {
+      const curlStr = curlCommand as string;
+      
+      let authorization = "";
+      const authMatch = curlStr.match(/--header\s+['"]Authorization:\s*([^'"]+)['"]/i) || 
+                        curlStr.match(/-H\s+['"]Authorization:\s*([^'"]+)['"]/i);
+      if (authMatch && authMatch[1]) {
+        authorization = authMatch[1].trim();
+      }
+
+      let url = "";
+      const urlMatch = curlStr.match(/--location\s+['"]([^'"]+)['"]/i) || curlStr.match(/curl\s+['"]([^'"]+)['"]/i);
+      if (urlMatch && urlMatch[1]) {
+        url = urlMatch[1].trim();
+      }
+
+      return NextResponse.json({
+        success: true,
+        vendor: 'Acefone',
+        data: {
+          url: url || '',
+          authorization: authorization || ''
+        }
+      });
     }
 
     return NextResponse.json(

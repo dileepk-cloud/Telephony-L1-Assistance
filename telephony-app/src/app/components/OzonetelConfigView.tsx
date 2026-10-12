@@ -58,24 +58,28 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
 
       {/* Tabs */}
       <div className="flex space-x-8 px-6 bg-white border-b text-sm font-medium">
-        <button 
-          className={`py-3 outline-none ${activeTab === 'outbound' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-          onClick={() => setActiveTab('outbound')}
-        >
-          Outbound Config
-        </button>
+        {configData.configType !== 'Campaign' && (
+          <button 
+            className={`py-3 outline-none ${activeTab === 'outbound' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            onClick={() => setActiveTab('outbound')}
+          >
+            Outbound Config
+          </button>
+        )}
         <button 
           className={`py-3 outline-none ${activeTab === 'inbound' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
           onClick={() => setActiveTab('inbound')}
         >
           Inbound Config
         </button>
-        <button 
-          className={`py-3 outline-none ${activeTab === 'campaign' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-          onClick={() => setActiveTab('campaign')}
-        >
-          Campaign Dialer
-        </button>
+        {configData.configType === 'Campaign' && (
+          <button 
+            className={`py-3 outline-none ${activeTab === 'campaign' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            onClick={() => setActiveTab('campaign')}
+          >
+            Campaign Dialer
+          </button>
+        )}
         <button 
           className={`py-3 outline-none ${activeTab === 'callLog' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
           onClick={() => setActiveTab('callLog')}
@@ -644,8 +648,8 @@ export default function OzonetelConfigView({ configData }: OzonetelConfigViewPro
                       <span className="text-gray-700 text-sm">Enable Agent Wise Campaign data push</span>
                     </div>
                     <div className="flex-1">
-                      <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
-                        <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+                      <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
+                        <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
                       </div>
                     </div>
                   </div>

@@ -96,8 +96,8 @@ export default function McubeConfigView({ configData, agentNumber }: McubeConfig
                 <span className="text-gray-400">ⓘ</span>
               </div>
               <div className="flex-1 flex border rounded-md overflow-hidden bg-gray-50">
-                <button className="px-4 py-1.5 border-r text-gray-600 w-24">Get</button>
-                <button className="px-4 py-1.5 bg-blue-500 text-white font-medium w-24">Post</button>
+                <button className="px-4 py-1.5 border-r bg-blue-500 text-white font-medium w-24">Get</button>
+                <button className="px-4 py-1.5 text-gray-600 w-24">Post</button>
               </div>
             </div>
 
@@ -106,7 +106,7 @@ export default function McubeConfigView({ configData, agentNumber }: McubeConfig
                 <span className="text-gray-700">Click To Call (CTC) API URL <span className="text-red-500">*</span></span>
               </div>
               <div className="flex-1">
-                <input type="text" className="w-full border rounded-md p-2 bg-gray-50 text-gray-800" value={configData?.clickToCallUrl || "http://api.mcube.com/Restmcube-api/outbound-calls"} readOnly />
+                <input type="text" className="w-full border rounded-md p-2 bg-gray-50 text-gray-800" value={configData?.url || "http://api.mcube.com/Restmcube-api/outbound-calls"} readOnly />
               </div>
             </div>
           </div>

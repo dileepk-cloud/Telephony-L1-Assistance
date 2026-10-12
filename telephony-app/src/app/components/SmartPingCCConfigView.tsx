@@ -60,22 +60,26 @@ export default function SmartPingCCConfigView({
 
       {/* Tabs */}
       <div className="flex space-x-6 px-6 pt-3 text-gray-500 border-b font-medium">
-        <div 
-          className={`pb-2 cursor-pointer ${activeTab === 'Outbound Config' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
-          onClick={() => setActiveTab('Outbound Config')}
-        >
-          Outbound Config
-        </div>
+        {configType === 'Outbound' && (
+          <div 
+            className={`pb-2 cursor-pointer ${activeTab === 'Outbound Config' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+            onClick={() => setActiveTab('Outbound Config')}
+          >
+            Outbound Config
+          </div>
+        )}
         <div 
           className={`pb-2 cursor-pointer ${activeTab === 'Inbound Config' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
           onClick={() => setActiveTab('Inbound Config')}
         >Inbound Config</div>
-        <div 
-          className={`pb-2 cursor-pointer ${activeTab === 'Campaign Dialer' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
-          onClick={() => setActiveTab('Campaign Dialer')}
-        >
-          Campaign Dialer
-        </div>
+        {configType === 'Campaign' && (
+          <div 
+            className={`pb-2 cursor-pointer ${activeTab === 'Campaign Dialer' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+            onClick={() => setActiveTab('Campaign Dialer')}
+          >
+            Campaign Dialer
+          </div>
+        )}
         <div className="pb-2 hover:text-gray-700 cursor-pointer">Call Log API</div>
         <div className="pb-2 hover:text-gray-700 cursor-pointer">Additional Config</div>
       </div>

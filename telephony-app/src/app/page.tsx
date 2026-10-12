@@ -9,6 +9,9 @@ import McubeConfigView from './components/McubeConfigView';
 import McubeTwoConfigView from './components/McubeTwoConfigView';
 import SmartpingConfigView from './components/SmartpingConfigView';
 import MyoperatorConfigView from './components/MyoperatorConfigView';
+import SrKnowlarityConfigView from './components/SrKnowlarityConfigView';
+import TatatelConfigView from './components/TatatelConfigView';
+import AcefoneConfigView from './components/AcefoneConfigView';
 
 export default function Home() {
   const [vendor, setVendor] = useState('Telecmi');
@@ -45,6 +48,7 @@ export default function Home() {
   const [myoperatorUserId, setMyoperatorUserId] = useState('');
 
   const hasSpace = (str: string) => /\s/.test(str);
+  const isValidUrl = (urlString: string) => { try { return Boolean(new URL(urlString)); } catch(e){ return false; } };
   const [mcubeTwoConfigType, setMcubeTwoConfigType] = useState('Outbound');
   const [mcubeTwoCtcUrl, setMcubeTwoCtcUrl] = useState('');
   const [mcubeTwoAuth, setMcubeTwoAuth] = useState('');
@@ -57,6 +61,15 @@ export default function Home() {
   const [ozonetelAgentId, setOzonetelAgentId] = useState('');
   const [ozonetelCampaignName, setOzonetelCampaignName] = useState('');
   const [campaignDetails, setCampaignDetails] = useState('');
+  const [knowlarityUrl, setKnowlarityUrl] = useState('');
+  const [knowlarityKNumber, setKnowlarityKNumber] = useState('');
+  const [knowlarityAuth, setKnowlarityAuth] = useState('');
+  const [knowlarityApiKey, setKnowlarityApiKey] = useState('');
+  const [knowlarityLiveStreamUrl, setKnowlarityLiveStreamUrl] = useState('');
+  const [tatatelUrl, setTatatelUrl] = useState('');
+  const [tatatelAuth, setTatatelAuth] = useState('');
+  const [acefoneUrl, setAcefoneUrl] = useState('');
+  const [acefoneAuth, setAcefoneAuth] = useState('');
   const [agentNumber, setAgentNumber] = useState('');
   const [displayNumber, setDisplayNumber] = useState('');
   const [configData, setConfigData] = useState<any>(null);
@@ -71,6 +84,10 @@ export default function Home() {
       }
       if (/\s/.test(telecmiUrl)) {
         setError('Click To Call API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(telecmiUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
         return;
       }
       if (/\s/.test(telecmiSecret)) {
@@ -104,6 +121,10 @@ export default function Home() {
       }
       if (/\s/.test(sparcUrl)) {
         setError('Click To Call API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(sparcUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
         return;
       }
       if (/\s/.test(sparcAuthKey)) {
@@ -140,6 +161,10 @@ export default function Home() {
           setError('Click To Call API URL must not contain any spaces.');
           return;
         }
+        if (!isValidUrl(smartPingCcCtcUrl)) {
+          setError('Click To Call API URL must be a valid URL.');
+          return;
+        }
         if (/\s/.test(smartPingCcToken)) {
           setError('Token must not contain any spaces.');
           return;
@@ -151,6 +176,10 @@ export default function Home() {
         }
         if (/\s/.test(smartPingCcCampaignUrl)) {
           setError('Campaign Dialer URL must not contain any spaces.');
+          return;
+        }
+        if (!isValidUrl(smartPingCcCampaignUrl)) {
+          setError('Campaign Dialer URL must be a valid URL.');
           return;
         }
         if (/\s/.test(smartPingCcToken)) {
@@ -197,6 +226,10 @@ export default function Home() {
         setError('Click To Call API URL must not contain any spaces.');
         return;
       }
+      if (!isValidUrl(smartpingCtcUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
+        return;
+      }
       if (/\s/.test(smartpingToken)) {
         setError('Token must not contain any spaces.');
         return;
@@ -224,6 +257,10 @@ export default function Home() {
       }
       if (/\s/.test(myoperatorCtcUrl) || /\s/.test(myoperatorCompanyId) || /\s/.test(myoperatorSecretToken) || /\s/.test(myoperatorType) || /\s/.test(myoperatorPublicIvrId) || /\s/.test(myoperatorApiKey)) {
         setError('Fields must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(myoperatorCtcUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
         return;
       }
 
@@ -257,6 +294,10 @@ export default function Home() {
           setError('Click To Call API URL must not contain any spaces.');
           return;
         }
+        if (!isValidUrl(ozonetelCtcUrl)) {
+          setError('Click To Call API URL must be a valid URL.');
+          return;
+        }
         if (/\s/.test(ozonetelApiKey)) {
           setError('API Key must not contain any spaces.');
           return;
@@ -284,6 +325,10 @@ export default function Home() {
         }
         if (/\s/.test(ozonetelCampaignUrl)) {
           setError('Campaign Dialer URL must not contain any spaces.');
+          return;
+        }
+        if (!isValidUrl(ozonetelCampaignUrl)) {
+          setError('Campaign Dialer URL must be a valid URL.');
           return;
         }
         if (/\s/.test(ozonetelApiKey)) {
@@ -316,6 +361,10 @@ export default function Home() {
       }
       if (/\s/.test(mcubeCtcUrl)) {
         setError('Click To Call API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(mcubeCtcUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
         return;
       }
       if (/\s/.test(mcubeApiKey)) {
@@ -352,6 +401,10 @@ export default function Home() {
           setError('Click To Call API URL must not contain any spaces.');
           return;
         }
+        if (!isValidUrl(mcubeTwoCtcUrl)) {
+          setError('Click To Call API URL must be a valid URL.');
+          return;
+        }
         if (/\s/.test(mcubeTwoAuth)) {
           setError('Authorization must not contain any spaces.');
           return;
@@ -383,6 +436,10 @@ export default function Home() {
         }
         if (/\s/.test(mcubeTwoCampaignUrl)) {
           setError('Campaign Dialer URL must not contain any spaces.');
+          return;
+        }
+        if (!isValidUrl(mcubeTwoCampaignUrl)) {
+          setError('Campaign Dialer URL must be a valid URL.');
           return;
         }
         if (/\s/.test(mcubeTwoAuth)) {
@@ -418,6 +475,118 @@ export default function Home() {
         setLoading(false);
         return;
       }
+    }
+
+    if (vendor === 'SR Knowlarity') {
+      if (!knowlarityUrl.trim() || !knowlarityKNumber.trim() || !knowlarityAuth.trim() || !knowlarityApiKey.trim() || !knowlarityLiveStreamUrl.trim()) {
+        setError('Please provide Click to Call API URL, k_number, Authorization, x-api key, and Live Streaming API URL for SR Knowlarity.');
+        return;
+      }
+      if (/\s/.test(knowlarityUrl)) {
+        setError('Click To Call API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(knowlarityUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
+        return;
+      }
+      if (/\s/.test(knowlarityLiveStreamUrl)) {
+        setError('Live Streaming API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(knowlarityLiveStreamUrl)) {
+        setError('Live Streaming API URL must be a valid URL.');
+        return;
+      }
+      if (/\s/.test(knowlarityAuth)) {
+        setError('Authorization must not contain any spaces.');
+        return;
+      }
+      if (/\s/.test(knowlarityApiKey)) {
+        setError('x-api key must not contain any spaces.');
+        return;
+      }
+
+      setError('');
+      setLoading(true);
+      setConfigData({
+        vendor: 'SR Knowlarity',
+        data: {
+          url: knowlarityUrl,
+          kNumber: knowlarityKNumber,
+          authorization: knowlarityAuth,
+          apiKey: knowlarityApiKey,
+          streamingAuthKey: knowlarityAuth,
+          liveStreamingUrl: knowlarityLiveStreamUrl
+        },
+        agentNumber: agentNumber.trim() || '+918860606663'
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (vendor === 'Tatatel') {
+      if (!tatatelUrl.trim() || !tatatelAuth.trim()) {
+        setError('Please provide Click to Call API URL and Authorization for Tatatel.');
+        return;
+      }
+      if (/\s/.test(tatatelUrl)) {
+        setError('Click To Call API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(tatatelUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
+        return;
+      }
+      if (/\s/.test(tatatelAuth)) {
+        setError('Authorization must not contain any spaces.');
+        return;
+      }
+
+      setError('');
+      setLoading(true);
+      setConfigData({
+        vendor: 'Tatatel',
+        data: {
+          url: tatatelUrl,
+          authorization: tatatelAuth,
+        },
+        agentNumber: agentNumber.trim() || '+919684707548'
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (vendor === 'Acefone') {
+      if (!acefoneUrl.trim() || !acefoneAuth.trim()) {
+        setError('Please provide Click to Call API URL and Authorization for Acefone.');
+        return;
+      }
+      if (/\s/.test(acefoneUrl)) {
+        setError('Click To Call API URL must not contain any spaces.');
+        return;
+      }
+      if (!isValidUrl(acefoneUrl)) {
+        setError('Click To Call API URL must be a valid URL.');
+        return;
+      }
+      if (/\s/.test(acefoneAuth)) {
+        setError('Authorization must not contain any spaces.');
+        return;
+      }
+
+      setError('');
+      setLoading(true);
+      setConfigData({
+        vendor: 'Acefone',
+        data: {
+          url: acefoneUrl,
+          authorization: acefoneAuth,
+        },
+        agentNumber: agentNumber.trim() || '+919411557979'
+      });
+      setLoading(false);
+      return;
     }
 
     if (!curlCommand.trim()) {
@@ -476,6 +645,15 @@ export default function Home() {
                   setVendor(e.target.value);
                   setCurlCommand('');
                   setCampaignDetails('');
+                  setKnowlarityUrl('');
+                  setKnowlarityKNumber('');
+                  setKnowlarityAuth('');
+                  setKnowlarityApiKey('');
+                  setKnowlarityLiveStreamUrl('');
+                  setTatatelUrl('');
+                  setTatatelAuth('');
+                  setAcefoneUrl('');
+                  setAcefoneAuth('');
                   setConfigData(null);
                   setError('');
                 }}
@@ -488,6 +666,9 @@ export default function Home() {
                 <option value="Ozonetel">Ozonetel</option>
                 <option value="MCUBE Classic">MCUBE Classic</option>
                 <option value="MCUBE 2.0">MCUBE 2.0</option>
+                <option value="SR Knowlarity">SR Knowlarity</option>
+                <option value="Tatatel">Tatatel</option>
+                <option value="Acefone">Acefone</option>
                 <option value="Other">Other (Coming Soon)</option>
               </select>
             </div>
@@ -1010,6 +1191,105 @@ export default function Home() {
                   )}
                 </div>
               </>
+            ) : vendor === 'SR Knowlarity' ? (
+              <>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Click To Call (c2c) API URL *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="https://kpi.knowlarity.com/Basic/v1/account/call/makecall"
+                    value={knowlarityUrl}
+                    onChange={(e) => setKnowlarityUrl(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">k_number *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="e.g. 18002746969"
+                    value={knowlarityKNumber}
+                    onChange={(e) => setKnowlarityKNumber(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Authorization *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="Enter Authorization token"
+                    value={knowlarityAuth}
+                    onChange={(e) => setKnowlarityAuth(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">x-api key *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="Enter x-api key"
+                    value={knowlarityApiKey}
+                    onChange={(e) => setKnowlarityApiKey(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Live Streaming API URL *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="https://konnectprodstream3.knowlarity.com:8200/update-stream/..."
+                    value={knowlarityLiveStreamUrl}
+                    onChange={(e) => setKnowlarityLiveStreamUrl(e.target.value)}
+                  />
+                </div>
+              </>
+            ) : vendor === 'Tatatel' ? (
+              <>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Click To Call (c2c) API URL *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="https://api-smartflo.tatateleservices.com/v1/click_to_call"
+                    value={tatatelUrl}
+                    onChange={(e) => setTatatelUrl(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Authorization *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="Enter Authorization token"
+                    value={tatatelAuth}
+                    onChange={(e) => setTatatelAuth(e.target.value)}
+                  />
+                </div>
+              </>
+            ) : vendor === 'Acefone' ? (
+              <>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Click To Call (c2c) API URL *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="https://api.acefone.in/v1/click_to_call"
+                    value={acefoneUrl}
+                    onChange={(e) => setAcefoneUrl(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2 flex-grow">
+                  <label className="block text-sm font-semibold text-gray-700">Authorization *</label>
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                    placeholder="Enter Authorization token"
+                    value={acefoneAuth}
+                    onChange={(e) => setAcefoneAuth(e.target.value)}
+                  />
+                </div>
+              </>
             ) : (
               <div className="space-y-2 flex-grow">
                 <label className="block text-sm font-semibold text-gray-700">cURL Command</label>
@@ -1057,7 +1337,13 @@ export default function Home() {
                 <input
                   type="text"
                   className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                  placeholder={vendor === 'Smartping' ? 'e.g. 24615' : 'e.g. 9684707548'}
+                  placeholder={
+                    vendor === 'Smartping'
+                      ? 'e.g. 24615'
+                      : vendor === 'Acefone'
+                      ? 'e.g. +919411557979'
+                      : 'e.g. 9684707548'
+                  }
                   value={agentNumber}
                   onChange={(e) => setAgentNumber(e.target.value)}
                 />
@@ -1141,6 +1427,28 @@ export default function Home() {
                 <McubeConfigView configData={configData.data} agentNumber={configData.agentNumber} />
               ) : configData && configData.vendor === 'MCUBE 2.0' ? (
                 <McubeTwoConfigView configData={configData.data} agentNumber={configData.agentNumber} />
+              ) : configData && configData.vendor === 'SR Knowlarity' ? (
+                <SrKnowlarityConfigView
+                  url={configData.data.url}
+                  kNumber={configData.data.kNumber}
+                  authorization={configData.data.authorization}
+                  apiKey={configData.data.apiKey}
+                  streamingAuthKey={configData.data.streamingAuthKey}
+                  liveStreamingUrl={configData.data.liveStreamingUrl}
+                  agentNumber={configData.agentNumber}
+                />
+              ) : configData && configData.vendor === 'Tatatel' ? (
+                <TatatelConfigView
+                  url={configData.data.url}
+                  authorization={configData.data.authorization}
+                  agentNumber={configData.agentNumber}
+                />
+              ) : configData && configData.vendor === 'Acefone' ? (
+                <AcefoneConfigView
+                  url={configData.data.url}
+                  authorization={configData.data.authorization}
+                  agentNumber={configData.agentNumber}
+                />
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 py-20">
                   <svg className="w-16 h-16 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
