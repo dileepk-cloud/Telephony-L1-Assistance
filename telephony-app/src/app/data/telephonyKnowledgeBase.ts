@@ -302,7 +302,7 @@ export const TELEPHONY_KNOWLEDGE_INDEX: TelephonySearchItem[] = [
     title: 'Error: Status=0, Error=503',
     tabId: 'troubleshooting',
     tabLabel: 'Troubleshooting',
-    keywords: ['status=0', '503', 'error=503', 'click to call api failure', 'c2c failure'],
+    keywords: ['status=0', '503', 'error=503', 'error 503', '503 error', 'http 503', 'click to call api failure', 'c2c failure'],
     summary: 'Vendor\'s Click-to-Call API is failing or rejecting requests.',
     fixOrAction: 'Escalate to the telephony vendor support team.'
   },
@@ -342,7 +342,7 @@ export const TELEPHONY_KNOWLEDGE_INDEX: TelephonySearchItem[] = [
     title: 'Error: MCUBE 503 Service Unavailable',
     tabId: 'troubleshooting',
     tabLabel: 'Troubleshooting',
-    keywords: ['mcube 503', '503 service unavailable', 'connection refused', 'mcube outage'],
+    keywords: ['mcube 503', '503 service unavailable', 'connection refused', 'mcube outage', 'error 503', '503 error', 'http 503'],
     summary: 'MCUBE vendor-side server outage or connection refused.',
     fixOrAction: 'Escalate directly to MCUBE support team.'
   },

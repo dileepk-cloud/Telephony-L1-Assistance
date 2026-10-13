@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import '../reference-console.css';
 import { TELEPHONY_KNOWLEDGE_INDEX, TelephonySearchItem } from '../data/telephonyKnowledgeBase';
 import { useTheme, ThemeToggle } from './ThemeContext';
@@ -22,18 +22,156 @@ export default function TelephonyReferenceConsole({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const filteredResults = TELEPHONY_KNOWLEDGE_INDEX.filter((item) => {
-    const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-    const q = searchQuery.toLowerCase().trim();
-    if (!q) return matchesCategory;
-    const matchesQuery =
-      item.title.toLowerCase().includes(q) ||
-      item.summary.toLowerCase().includes(q) ||
-      (item.fixOrAction && item.fixOrAction.toLowerCase().includes(q)) ||
-      item.keywords.some((k) => k.toLowerCase().includes(q)) ||
-      (item.details && item.details.some((d) => d.toLowerCase().includes(q)));
-    return matchesCategory && matchesQuery;
-  });
+  // Smart Search Engine with multi-token fuzzy matching, domain heuristics & relevance ranking
+  const filteredResults = useMemo(() => {
+    const rawQuery = searchQuery.trim();
+    if (!rawQuery) {
+      if (selectedCategory === 'All') return TELEPHONY_KNOWLEDGE_INDEX;
+      return TELEPHONY_KNOWLEDGE_INDEX.filter((item) => item.category === selectedCategory);
+    }
+
+    // Normalizer: strips symbols, extra spaces, lowercases
+    const normalize = (str: string) =>
+      str.toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+
+    const queryNorm = normalize(rawQuery);
+    const queryTokens = queryNorm.split(' ').filter(Boolean);
+
+    // Score all items based on relevance
+    const scoredItems = TELEPHONY_KNOWLEDGE_INDEX.map((item) => {
+      let score = 0;
+
+      const titleNorm = normalize(item.title);
+      const summaryNorm = normalize(item.summary);
+      const fixNorm = normalize(item.fixOrAction || '');
+      const keywordsNorm = item.keywords.map(normalize);
+      const detailsNorm = (item.details || []).map(normalize).join(' ');
+      const categoryNorm = normalize(item.category);
+      const tabLabelNorm = normalize(item.tabLabel);
+      const allText = `${titleNorm} ${keywordsNorm.join(' ')} ${summaryNorm} ${fixNorm} ${detailsNorm} ${categoryNorm} ${tabLabelNorm}`;
+
+      // 1. Direct exact phrase matches (Highest Priority)
+      if (titleNorm.includes(queryNorm)) {
+        score += 150;
+      } else if (keywordsNorm.some((k) => k.includes(queryNorm) || queryNorm.includes(k))) {
+        score += 130;
+      } else if (summaryNorm.includes(queryNorm)) {
+        score += 85;
+      } else if (fixNorm.includes(queryNorm)) {
+        score += 75;
+      } else if (allText.includes(queryNorm)) {
+        score += 65;
+      }
+
+      // 2. Token-level matching & coverage
+      let matchedTokensCount = 0;
+      for (const token of queryTokens) {
+        let tokenScore = 0;
+
+        // Exact token in title
+        if (titleNorm.split(' ').includes(token)) {
+          tokenScore = Math.max(tokenScore, 45);
+        } else if (titleNorm.includes(token)) {
+          tokenScore = Math.max(tokenScore, 30);
+        }
+
+        // Token in keywords list
+        if (keywordsNorm.some((k) => k.split(' ').includes(token))) {
+          tokenScore = Math.max(tokenScore, 40);
+        } else if (keywordsNorm.some((k) => k.includes(token))) {
+          tokenScore = Math.max(tokenScore, 25);
+        }
+
+        // Token in summary / fix / details / category
+        if (summaryNorm.includes(token)) tokenScore = Math.max(tokenScore, 20);
+        if (fixNorm.includes(token)) tokenScore = Math.max(tokenScore, 18);
+        if (detailsNorm.includes(token)) tokenScore = Math.max(tokenScore, 14);
+        if (categoryNorm.includes(token) || tabLabelNorm.includes(token)) {
+          tokenScore = Math.max(tokenScore, 15);
+        }
+
+        if (tokenScore > 0) {
+          matchedTokensCount++;
+          score += tokenScore;
+        }
+      }
+
+      // Multi-token completeness boost
+      if (queryTokens.length > 1) {
+        if (matchedTokensCount === queryTokens.length) {
+          score += 100; // 100% of words matched somewhere in this entry!
+        } else if (matchedTokensCount >= Math.ceil(queryTokens.length * 0.5)) {
+          score += 30; // Majority matched
+        }
+      }
+
+      // 3. Telephony Domain Smart Heuristics
+      // Error code match (e.g. 503, 502, 500, 404, 0, etc.)
+      for (const token of queryTokens) {
+        if (/^\d+$/.test(token)) {
+          if (titleNorm.includes(token) || keywordsNorm.some((k) => k.includes(token))) {
+            score += 120;
+          }
+        }
+      }
+
+      // "case X" detection (e.g. "case 3", "case 1", "case 3 (ivr timeline)")
+      const caseMatch = rawQuery.match(/case\s*(\d+)/i);
+      if (caseMatch) {
+        const caseNum = caseMatch[1];
+        if (item.id === `case-${caseNum}` || titleNorm.includes(`case ${caseNum}`)) {
+          score += 200;
+        }
+      }
+
+      // NDNC / DND detection
+      if (queryTokens.includes('ndnc') || queryTokens.includes('dnd')) {
+        if (keywordsNorm.some((k) => k.includes('ndnc') || k.includes('dnd')) || titleNorm.includes('ndnc')) {
+          score += 100;
+        }
+      }
+
+      // Sticky Agent / Routing
+      if (queryTokens.includes('sticky') || queryTokens.includes('counselor') || queryTokens.includes('counsellor')) {
+        if (keywordsNorm.some((k) => k.includes('sticky') || k.includes('counselor') || k.includes('counsellor')) || titleNorm.includes('counselor')) {
+          score += 60;
+        }
+      }
+
+      // DID / Virtual numbers
+      if (queryTokens.includes('did') || queryTokens.includes('virtual')) {
+        if (keywordsNorm.some((k) => k.includes('did') || k.includes('virtual')) || titleNorm.includes('did')) {
+          score += 80;
+        }
+      }
+
+      // Popup detection
+      if (queryTokens.includes('popup') || queryTokens.includes('notification')) {
+        if (titleNorm.includes('popup') || titleNorm.includes('notification') || keywordsNorm.some((k) => k.includes('pop'))) {
+          score += 80;
+        }
+      }
+
+      // Recording detection
+      if (queryTokens.includes('recording') || queryTokens.includes('audio')) {
+        if (titleNorm.includes('recording') || keywordsNorm.some((k) => k.includes('recording'))) {
+          score += 80;
+        }
+      }
+
+      return { item, score };
+    });
+
+    // Filter by selectedCategory & score > 0, then sort by highest relevance score
+    return scoredItems
+      .filter(({ item, score }) => {
+        if (score <= 0) return false;
+        if (selectedCategory !== 'All' && item.category !== selectedCategory) return false;
+        return true;
+      })
+      .sort((a, b) => b.score - a.score)
+      .map(({ item }) => item);
+  }, [searchQuery, selectedCategory]);
 
   const tabs = [
     { id: 'overview', label: 'Overview', group: 'General', accent: 'acc-teal' },
