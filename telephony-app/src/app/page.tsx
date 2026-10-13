@@ -53,7 +53,7 @@ export default function Home() {
   const [myoperatorUserId, setMyoperatorUserId] = useState('');
 
   const hasSpace = (str: string) => /\s/.test(str);
-  const isValidUrl = (urlString: string) => { try { return Boolean(new URL(urlString)); } catch(e){ return false; } };
+  const isValidUrl = (urlString: string) => { try { return Boolean(new URL(urlString)); } catch (e) { return false; } };
   const [mcubeTwoConfigType, setMcubeTwoConfigType] = useState('Outbound');
   const [mcubeTwoCtcUrl, setMcubeTwoCtcUrl] = useState('');
   const [mcubeTwoAuth, setMcubeTwoAuth] = useState('');
@@ -639,29 +639,24 @@ export default function Home() {
 
   if (appMode === 'hub') {
     return (
-      <div className={`min-h-screen flex flex-col justify-between p-6 sm:p-12 relative overflow-hidden font-sans transition-colors duration-200 ${
-        isDark ? 'bg-[#0A0E1A] text-slate-100' : 'bg-gradient-to-br from-slate-50 via-slate-50 to-blue-50/30 text-slate-900'
-      }`}>
+      <div className={`min-h-screen flex flex-col justify-between p-6 sm:p-12 relative overflow-hidden font-sans transition-colors duration-200 ${isDark ? 'bg-[#0A0E1A] text-slate-100' : 'bg-gradient-to-br from-slate-50 via-slate-50 to-blue-50/30 text-slate-900'
+        }`}>
         {/* Ambient background glow for executive elegance */}
-        <div className={`absolute top-[-10%] left-[15%] w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-opacity duration-300 ${
-          isDark ? 'bg-blue-600/10' : 'bg-blue-400/10'
-        }`} />
-        <div className={`absolute bottom-[-10%] right-[15%] w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-opacity duration-300 ${
-          isDark ? 'bg-teal-500/10' : 'bg-teal-400/10'
-        }`} />
+        <div className={`absolute top-[-10%] left-[15%] w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-opacity duration-300 ${isDark ? 'bg-blue-600/10' : 'bg-blue-400/10'
+          }`} />
+        <div className={`absolute bottom-[-10%] right-[15%] w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none transition-opacity duration-300 ${isDark ? 'bg-teal-500/10' : 'bg-teal-400/10'
+          }`} />
 
         {/* Top Branding */}
-        <div className={`max-w-6xl mx-auto w-full flex items-center justify-between pb-6 border-b relative z-10 ${
-          isDark ? 'border-[#222E4E]' : 'border-slate-200'
-        }`}>
+        <div className={`max-w-6xl mx-auto w-full flex items-center justify-between pb-6 border-b relative z-10 ${isDark ? 'border-[#222E4E]' : 'border-slate-200'
+          }`}>
           <div className="flex items-center space-x-3.5">
             <VaaniLogo size="md" onClick={() => setAppMode('hub')} className="cursor-pointer" />
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className={`hidden sm:flex items-center space-x-2 text-xs px-3.5 py-1.5 rounded-full border ${
-              isDark ? 'bg-[#111728] border-[#222E4E] text-slate-300' : 'bg-white border-slate-200 text-slate-600 shadow-2xs'
-            }`}>
+            <div className={`hidden sm:flex items-center space-x-2 text-xs px-3.5 py-1.5 rounded-full border ${isDark ? 'bg-[#111728] border-[#222E4E] text-slate-300' : 'bg-white border-slate-200 text-slate-600 shadow-2xs'
+              }`}>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>All 11+ vendors active</span>
             </div>
@@ -675,55 +670,48 @@ export default function Home() {
             <VaaniLogo size="lg" onClick={() => setAppMode('hub')} className="cursor-pointer" />
           </div>
           <div className="flex justify-center mb-2">
-            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border ${
-              isDark ? 'bg-blue-950/70 border-blue-500/40 text-blue-300' : 'bg-blue-50 border-blue-200/80 text-blue-700'
-            }`}>
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold border ${isDark ? 'bg-blue-950/70 border-blue-500/40 text-blue-300' : 'bg-blue-50 border-blue-200/80 text-blue-700'
+              }`}>
               <span>✦</span>
               <span>Enterprise Telephony Automation &amp; Intelligence Platform</span>
             </div>
           </div>
-          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight max-w-3xl mx-auto leading-tight ${
-            isDark ? 'text-white' : 'text-slate-900'
-          }`}>
+          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight max-w-3xl mx-auto leading-tight ${isDark ? 'text-white' : 'text-slate-900'
+            }`}>
             Telephony Config Agent &amp; Reference Guide
           </h2>
-          <p className={`text-sm sm:text-base max-w-2xl mx-auto leading-relaxed ${
-            isDark ? 'text-slate-400' : 'text-slate-600'
-          }`}>
+          <p className={`text-sm sm:text-base max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'
+            }`}>
             Vaani unifies telephony configuration generation across 11+ cloud vendors with deep architectural guidance, and comprehensive troubleshooting docs.
           </p>
 
           {/* Two Boxes Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7 pt-6 max-w-4xl mx-auto text-left">
-            
+
             {/* Box 1: Config Agent */}
             <div
               onClick={() => setAppMode('config')}
-              className={`group relative rounded-3xl p-7 transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden border ${
-                isDark
-                  ? 'bg-[#111728]/95 hover:bg-[#151D33] border-[#222E4E] hover:border-blue-500/70 shadow-2xl hover:shadow-blue-500/10'
-                  : 'bg-white hover:bg-slate-50/50 border-slate-200 hover:border-blue-500 shadow-sm hover:shadow-xl'
-              }`}
+              className={`group relative rounded-3xl p-7 transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden border ${isDark
+                ? 'bg-[#111728]/95 hover:bg-[#151D33] border-[#222E4E] hover:border-blue-500/70 shadow-2xl hover:shadow-blue-500/10'
+                : 'bg-white hover:bg-slate-50/50 border-slate-200 hover:border-blue-500 shadow-sm hover:shadow-xl'
+                }`}
             >
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
-              
+
               <div>
                 <div className="mb-5">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform border ${
-                    isDark ? 'bg-blue-950/80 border-blue-500/40 text-blue-400' : 'bg-blue-50 border-blue-100 text-blue-600'
-                  }`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform border ${isDark ? 'bg-blue-950/80 border-blue-500/40 text-blue-400' : 'bg-blue-50 border-blue-100 text-blue-600'
+                    }`}>
                     ⚡
                   </div>
                 </div>
 
-                <h3 className={`text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors ${
-                  isDark ? 'text-white' : 'text-slate-900'
-                }`}>
+                <h3 className={`text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors ${isDark ? 'text-white' : 'text-slate-900'
+                  }`}>
                   Telephony Config Agent
                 </h3>
-                <p className={`text-sm leading-relaxed mb-5 ${
-                  isDark ? 'text-slate-400' : 'text-slate-600'
-                }`}>
+                <p className={`text-sm leading-relaxed mb-5 ${isDark ? 'text-slate-400' : 'text-slate-600'
+                  }`}>
                   Generate visual admin configurations for all supported vendors (TeleCMI, Ozonetel, MCUBE, SmartPing, SR Knowlarity, Tatatel, Acefone &amp; more).
                 </p>
 
@@ -756,31 +744,27 @@ export default function Home() {
             {/* Box 2: Telephony Guide */}
             <div
               onClick={() => setAppMode('guide')}
-              className={`group relative rounded-3xl p-7 transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden border ${
-                isDark
-                  ? 'bg-[#111728]/95 hover:bg-[#151D33] border-[#222E4E] hover:border-teal-500/70 shadow-2xl hover:shadow-teal-500/10'
-                  : 'bg-white hover:bg-slate-50/50 border-slate-200 hover:border-teal-600 shadow-sm hover:shadow-xl'
-              }`}
+              className={`group relative rounded-3xl p-7 transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden border ${isDark
+                ? 'bg-[#111728]/95 hover:bg-[#151D33] border-[#222E4E] hover:border-teal-500/70 shadow-2xl hover:shadow-teal-500/10'
+                : 'bg-white hover:bg-slate-50/50 border-slate-200 hover:border-teal-600 shadow-sm hover:shadow-xl'
+                }`}
             >
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-500 to-emerald-500"></div>
-              
+
               <div>
                 <div className="mb-5">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform border ${
-                    isDark ? 'bg-teal-950/80 border-teal-500/40 text-teal-400' : 'bg-teal-50 border-teal-100 text-teal-700'
-                  }`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl group-hover:scale-105 transition-transform border ${isDark ? 'bg-teal-950/80 border-teal-500/40 text-teal-400' : 'bg-teal-50 border-teal-100 text-teal-700'
+                    }`}>
                     📖
                   </div>
                 </div>
 
-                <h3 className={`text-xl font-bold mb-2 group-hover:text-teal-500 transition-colors ${
-                  isDark ? 'text-white' : 'text-slate-900'
-                }`}>
+                <h3 className={`text-xl font-bold mb-2 group-hover:text-teal-500 transition-colors ${isDark ? 'text-white' : 'text-slate-900'
+                  }`}>
                   Telephony Guide &amp; Docs
                 </h3>
-                <p className={`text-sm leading-relaxed mb-5 ${
-                  isDark ? 'text-slate-400' : 'text-slate-600'
-                }`}>
+                <p className={`text-sm leading-relaxed mb-5 ${isDark ? 'text-slate-400' : 'text-slate-600'
+                  }`}>
                   Explore comprehensive documentation on Meritto telephony architecture, the 5 integrated APIs, call flows, and 17 case-by-case debugging solutions.
                 </p>
 
@@ -814,9 +798,8 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className={`max-w-6xl mx-auto w-full pt-6 border-t text-center text-xs relative z-10 ${
-          isDark ? 'border-[#222E4E] text-slate-500' : 'border-slate-200 text-slate-500'
-        }`}>
+        <div className={`max-w-6xl mx-auto w-full pt-6 border-t text-center text-xs relative z-10 ${isDark ? 'border-[#222E4E] text-slate-500' : 'border-slate-200 text-slate-500'
+          }`}>
           Meritto Telephony Suite — Reference Console &amp; Automation Portal
         </div>
       </div>
@@ -824,23 +807,20 @@ export default function Home() {
   }
 
   return (
-    <div className={`min-h-screen p-4 sm:p-8 font-sans transition-colors duration-200 ${
-      isDark ? 'bg-[#0A0E1A] text-slate-100' : 'bg-[#F8FAFC] text-slate-900'
-    }`}>
+    <div className={`min-h-screen p-4 sm:p-8 font-sans transition-colors duration-200 ${isDark ? 'bg-[#0A0E1A] text-slate-100' : 'bg-[#F8FAFC] text-slate-900'
+      }`}>
       <div className="max-w-7xl mx-auto space-y-6">
 
         {/* Top Header with Back to Hub button, Guide Switcher & Theme Selector */}
-        <div className={`flex items-center justify-between pb-4 border-b ${
-          isDark ? 'border-[#222E4E]' : 'border-slate-200'
-        }`}>
+        <div className={`flex items-center justify-between pb-4 border-b ${isDark ? 'border-[#222E4E]' : 'border-slate-200'
+          }`}>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setAppMode('hub')}
-              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all group ${
-                isDark
-                  ? 'bg-[#111728] border-[#222E4E] text-slate-300 hover:bg-[#161F38] hover:text-white'
-                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-2xs'
-              }`}
+              className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all group ${isDark
+                ? 'bg-[#111728] border-[#222E4E] text-slate-300 hover:bg-[#161F38] hover:text-white'
+                : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 shadow-2xs'
+                }`}
             >
               <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
               <span>Back to Main Hub</span>
@@ -857,11 +837,10 @@ export default function Home() {
             </span>
             <button
               onClick={() => setAppMode('guide')}
-              className={`px-3.5 py-2 rounded-xl border font-semibold flex items-center gap-1.5 transition-all ${
-                isDark
-                  ? 'bg-[#111728] border-teal-500/30 text-teal-400 hover:bg-[#161F38]'
-                  : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100'
-              }`}
+              className={`px-3.5 py-2 rounded-xl border font-semibold flex items-center gap-1.5 transition-all ${isDark
+                ? 'bg-[#111728] border-teal-500/30 text-teal-400 hover:bg-[#161F38]'
+                : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100'
+                }`}
             >
               <span>Open Reference Guide</span>
               <span>↗</span>
@@ -872,20 +851,17 @@ export default function Home() {
 
         {/* Header */}
         <div className="text-center space-y-2 mb-6">
-          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${
-            isDark ? 'bg-blue-950/70 border-blue-500/40 text-blue-300' : 'bg-blue-50 border-blue-200 text-blue-700'
-          }`}>
+          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${isDark ? 'bg-blue-950/70 border-blue-500/40 text-blue-300' : 'bg-blue-50 border-blue-200 text-blue-700'
+            }`}>
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
             Vaani · Automation Engine
           </div>
-          <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
-            isDark ? 'text-white' : 'text-slate-900'
-          }`}>
+          <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'
+            }`}>
             Vaani Config Agent
           </h1>
-          <p className={`text-xs sm:text-sm max-w-xl mx-auto ${
-            isDark ? 'text-slate-400' : 'text-slate-600'
-          }`}>
+          <p className={`text-xs sm:text-sm max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'
+            }`}>
             Select your vendor, provide required API endpoints &amp; tokens, and generate visual admin panel configurations instantly.
           </p>
         </div>
@@ -895,26 +871,22 @@ export default function Home() {
           {/* Input Section (Left Side) */}
           <div
             id="config-agent-form"
-            className={`w-full lg:w-1/3 p-5 sm:p-6 rounded-2xl border space-y-5 flex flex-col transition-all ${
-              isDark
-                ? 'bg-[#111728] border-[#222E4E] shadow-2xl shadow-black/40'
-                : 'bg-white border-slate-200 shadow-xs'
-            }`}
+            className={`w-full lg:w-1/3 p-5 sm:p-6 rounded-2xl border space-y-5 flex flex-col transition-all ${isDark
+              ? 'bg-[#111728] border-[#222E4E] shadow-2xl shadow-black/40'
+              : 'bg-white border-slate-200 shadow-xs'
+              }`}
           >
-            <div className={`flex items-center justify-between pb-3 border-b ${
-              isDark ? 'border-[#222E4E]' : 'border-slate-200'
-            }`}>
+            <div className={`flex items-center justify-between pb-3 border-b ${isDark ? 'border-[#222E4E]' : 'border-slate-200'
+              }`}>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                <h2 className={`text-xs font-bold tracking-wider uppercase font-mono ${
-                  isDark ? 'text-slate-200' : 'text-slate-900'
-                }`}>
+                <h2 className={`text-xs font-bold tracking-wider uppercase font-mono ${isDark ? 'text-slate-200' : 'text-slate-900'
+                  }`}>
                   Vendor Credentials
                 </h2>
               </div>
-              <span className={`text-[10px] px-2 py-0.5 rounded border ${
-                isDark ? 'text-slate-400 bg-[#161F38] border-[#253254]' : 'text-slate-500 bg-slate-100 border-slate-200'
-              }`}>
+              <span className={`text-[10px] px-2 py-0.5 rounded border ${isDark ? 'text-slate-400 bg-[#161F38] border-[#253254]' : 'text-slate-500 bg-slate-100 border-slate-200'
+                }`}>
                 Parameters
               </span>
             </div>
@@ -943,12 +915,12 @@ export default function Home() {
               >
                 <option value="Telecmi">Telecmi</option>
                 <option value="Smartping Sparc">Smartping Sparc</option>
-                <option value="SmartPing_CC">SmartPing_CC</option>
-                <option value="Smartping">Smartping</option>
+                <option value="SmartPing_CC">SmartPing_CC (Hybrid)</option>
+                <option value="Smartping">Smartping (Hardphone)</option>
                 <option value="Myoperator">Myoperator</option>
                 <option value="Ozonetel">Ozonetel</option>
-                <option value="MCUBE Classic">MCUBE Classic</option>
-                <option value="MCUBE 2.0">MCUBE 2.0</option>
+                <option value="MCUBE Classic">MCUBE Classic (Hardphone)</option>
+                <option value="MCUBE 2.0">MCUBE 2.0 (Hybrid)</option>
                 <option value="SR Knowlarity">SR Knowlarity</option>
                 <option value="Tatatel">Tatatel</option>
                 <option value="Acefone">Acefone</option>
@@ -1609,8 +1581,8 @@ export default function Home() {
                     vendor === 'Smartping'
                       ? 'e.g. 24615'
                       : vendor === 'Acefone'
-                      ? 'e.g. +919411557979'
-                      : 'e.g. 9684707548'
+                        ? 'e.g. +919411557979'
+                        : 'e.g. 9684707548'
                   }
                   value={agentNumber}
                   onChange={(e) => setAgentNumber(e.target.value)}
@@ -1653,9 +1625,8 @@ export default function Home() {
             </button>
 
             {error && (
-              <div className={`p-3.5 rounded-xl text-xs font-medium flex items-start gap-2 border ${
-                isDark ? 'bg-red-950/40 border-red-500/40 text-red-300' : 'bg-red-50 border-red-200 text-red-700'
-              }`}>
+              <div className={`p-3.5 rounded-xl text-xs font-medium flex items-start gap-2 border ${isDark ? 'bg-red-950/40 border-red-500/40 text-red-300' : 'bg-red-50 border-red-200 text-red-700'
+                }`}>
                 <span className="text-sm">⚠️</span>
                 <span>{error}</span>
               </div>
@@ -1663,14 +1634,12 @@ export default function Home() {
           </div>
 
           {/* Output Section (Right Side) */}
-          <div className={`w-full lg:w-2/3 rounded-2xl border flex flex-col overflow-hidden transition-all ${
-            isDark
-              ? 'bg-[#111728] border-[#222E4E] shadow-2xl shadow-black/40'
-              : 'bg-white border-slate-200 shadow-sm'
-          }`}>
-            <div className={`px-4 sm:px-5 py-3.5 border-b flex flex-wrap items-center justify-between gap-3 ${
-              isDark ? 'border-[#222E4E] bg-[#0E1424]' : 'border-slate-200 bg-slate-50/80'
+          <div className={`w-full lg:w-2/3 rounded-2xl border flex flex-col overflow-hidden transition-all ${isDark
+            ? 'bg-[#111728] border-[#222E4E] shadow-2xl shadow-black/40'
+            : 'bg-white border-slate-200 shadow-sm'
             }`}>
+            <div className={`px-4 sm:px-5 py-3.5 border-b flex flex-wrap items-center justify-between gap-3 ${isDark ? 'border-[#222E4E] bg-[#0E1424]' : 'border-slate-200 bg-slate-50/80'
+              }`}>
               <div className="flex items-center gap-3 min-w-0">
                 <div className="flex items-center gap-1.5 shrink-0">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
@@ -1691,29 +1660,25 @@ export default function Home() {
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className={`inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1 rounded-md border ${
-                  isDark ? 'bg-[#161F38] border-[#253254] text-cyan-300' : 'bg-white border-slate-200 text-slate-600 shadow-2xs'
-                }`}>
+                <span className={`inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1 rounded-md border ${isDark ? 'bg-[#161F38] border-[#253254] text-cyan-300' : 'bg-white border-slate-200 text-slate-600 shadow-2xs'
+                  }`}>
                   <span className="text-[10px] opacity-70">🔒</span>
                   <span>meritto://admin/{vendor.toLowerCase().replace(/\s+/g, '-')}</span>
                 </span>
-                <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider border ${
-                  isDark ? 'bg-blue-950/80 border-blue-500/40 text-blue-300' : 'bg-blue-50 border-blue-200 text-blue-700'
-                }`}>
+                <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider border ${isDark ? 'bg-blue-950/80 border-blue-500/40 text-blue-300' : 'bg-blue-50 border-blue-200 text-blue-700'
+                  }`}>
                   Portal Preview
                 </span>
               </div>
             </div>
 
-            <div className={`flex-1 overflow-auto p-4 sm:p-6 relative rounded-b-2xl min-h-[550px] transition-colors ${
-              isDark ? 'bg-[#070B14]' : 'bg-slate-100/70'
-            }`}>
+            <div className={`flex-1 overflow-auto p-4 sm:p-6 relative rounded-b-2xl min-h-[550px] transition-colors ${isDark ? 'bg-[#070B14]' : 'bg-slate-100/70'
+              }`}>
               {configData ? (
                 <div
                   id="admin-portal-simulation"
-                  className={`rounded-xl overflow-hidden transition-all ${
-                    isDark ? 'shadow-2xl border border-[#222E4E]' : 'shadow-md border border-slate-200'
-                  }`}
+                  className={`rounded-xl overflow-hidden transition-all ${isDark ? 'shadow-2xl border border-[#222E4E]' : 'shadow-md border border-slate-200'
+                    }`}
                 >
                   {configData.vendor === 'Telecmi' ? (
                     <TelecmiConfigView
@@ -1772,9 +1737,8 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="h-full min-h-[450px] flex flex-col items-center justify-center text-center space-y-4 py-16">
-                  <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center shadow-2xs ${
-                    isDark ? 'bg-[#111728] border-[#222E4E] text-slate-400' : 'bg-white border-slate-200 text-slate-400'
-                  }`}>
+                  <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center shadow-2xs ${isDark ? 'bg-[#111728] border-[#222E4E] text-slate-400' : 'bg-white border-slate-200 text-slate-400'
+                    }`}>
                     <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
@@ -1795,9 +1759,8 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className={`pt-6 border-t text-center text-xs flex items-center justify-center gap-2 ${
-          isDark ? 'border-[#222E4E] text-slate-500' : 'border-slate-200 text-slate-500'
-        }`}>
+        <div className={`pt-6 border-t text-center text-xs flex items-center justify-center gap-2 ${isDark ? 'border-[#222E4E] text-slate-500' : 'border-slate-200 text-slate-500'
+          }`}>
           <span>Vaani — Telephony Integration Hub</span>
           <span>•</span>
           <span>Meritto Internal Telephony Suite</span>

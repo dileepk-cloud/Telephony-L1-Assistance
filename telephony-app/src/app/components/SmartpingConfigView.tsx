@@ -221,6 +221,91 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
               </div>
             </div>
           </div>
+
+          {/* Response Configuration */}
+          <div className="space-y-4 pt-6 border-t">
+            <h3 className="font-bold text-gray-800">Response Configuration</h3>
+
+            <div className="flex items-center mt-2">
+              <div className="w-1/3">
+                <span className="text-gray-700">Response Type</span>
+              </div>
+              <div className="flex-1">
+                <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
+                  <span>Json</span>
+                  <span className="text-gray-400 text-xs">▼</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center mt-4">
+              <div className="w-1/3">
+                <span className="text-gray-700">Response Matching Type</span>
+              </div>
+              <div className="flex-1">
+                <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
+                  <span>Key/Value</span>
+                  <span className="text-gray-400 text-xs">▼</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Response Parameter - status: success */}
+            <div className="flex items-center mt-4">
+              <div className="w-1/3">
+                <span className="text-gray-700">Response Parameter</span>
+              </div>
+              <div className="flex-1 flex space-x-4 items-center">
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="status" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="success" readOnly />
+              </div>
+            </div>
+
+            {/* Response Parameter - code: 200 */}
+            <div className="flex items-center mt-4">
+              <div className="w-1/3"></div>
+              <div className="flex-1 flex space-x-4 items-center">
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="code" readOnly />
+                <input type="text" className="w-1/2 border rounded-md p-2 bg-white" value="200" readOnly />
+                <div className="flex space-x-2">
+                  <button className="text-red-500 bg-red-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg></button>
+                  <button className="text-blue-500 bg-blue-50 rounded-full p-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg></button>
+                </div>
+              </div>
+            </div>
+
+            {/* Select Forms */}
+            <div className="flex items-center mt-4">
+              <div className="w-1/3">
+                <span className="text-gray-700">Select Forms</span>
+              </div>
+              <div className="flex-1">
+                <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
+                  <span>Application Form</span>
+                  <span className="text-gray-400 text-xs">▼</span>
+                </div>
+              </div>
+            </div>
+
+            {/* International Calling Enable */}
+            <div className="flex items-center mt-6">
+              <div className="w-1/3">
+                <span className="text-gray-700">International Calling Enable</span>
+              </div>
+              <div className="flex-1">
+                <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
+                  <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <div className="flex justify-end pt-6">
+              <button className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
+                Save
+              </button>
+            </div>
+          </div>
         </div>
         )}
       </div>
