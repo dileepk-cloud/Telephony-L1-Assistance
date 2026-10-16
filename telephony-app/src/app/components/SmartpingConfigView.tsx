@@ -16,9 +16,6 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-md flex items-center justify-center font-bold text-lg border bg-gray-50 text-blue-600">
-            S
-          </div>
           <span className="font-bold text-gray-800 tracking-wide text-lg">Smartping</span>
         </div>
         <div className="space-x-2">
@@ -36,49 +33,60 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
       {/* Main Form Content */}
       <div className="flex-1 overflow-auto">
         {/* Tabs */}
-          <div className="flex space-x-6 px-6 pt-3 text-gray-500 border-b font-medium">
-            <div 
-              className={`pb-2 cursor-pointer ${activeTab === 'outbound' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
-              onClick={() => setActiveTab('outbound')}
-            >Outbound Config</div>
-            <div 
-              className={`pb-2 cursor-pointer ${activeTab === 'inbound' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
-              onClick={() => setActiveTab('inbound')}
-            >Inbound Config</div>
-            <div className="pb-2 hover:text-gray-700 cursor-pointer">Call Log API</div>
-            <div className="pb-2 hover:text-gray-700 cursor-pointer">Additional Config</div>
-          </div>
+        <div className="flex space-x-6 px-6 pt-3 text-gray-500 border-b font-medium">
+          <div 
+            className={`pb-2 cursor-pointer ${activeTab === 'outbound' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+            onClick={() => setActiveTab('outbound')}
+          >Outbound Config</div>
+          <div 
+            className={`pb-2 cursor-pointer ${activeTab === 'inbound' ? 'border-b-2 border-blue-600 text-gray-800' : 'hover:text-gray-700'}`}
+            onClick={() => setActiveTab('inbound')}
+          >Inbound Config</div>
+          <div className="pb-2 hover:text-gray-700 cursor-pointer">Call Log API</div>
+          <div className="pb-2 hover:text-gray-700 cursor-pointer">Additional Config</div>
+        </div>
 
         {activeTab === 'inbound' && <InboundConfigTab />}
 
-          {activeTab === 'outbound' && (
+        {activeTab === 'outbound' && (
           <div className="p-6 space-y-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 w-1/3">
-              <span className="text-gray-700">Enable Outbound Configuration</span>
-              <span className="text-gray-400">ⓘ</span>
-            </div>
-            <div className="flex-1">
-              <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
-                <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
-              </div>
-            </div>
-          </div>
+            {/* Enable Section */}
+            <div className="flex justify-between items-start border-b pb-6">
+              <div className="space-y-4 w-full">
+                <h3 className="font-bold text-gray-800">Enable Outbound Configuration</h3>
+                <p className="text-xs text-gray-500 -mt-3 mb-2">Configure the Click to Call API for Outbound Calling</p>
 
-          <div className="flex items-center">
-            <div className="flex items-center space-x-2 w-1/3">
-              <span className="text-gray-700">Enable Virtual Number Filtering</span>
-              <span className="text-gray-400">ⓘ</span>
-            </div>
-            <div className="flex-1">
-              <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
-                <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2 w-1/3">
+                    <span className="text-gray-700">Enable Outbound Configuration</span>
+                    <span className="text-gray-400">ⓘ</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="w-10 h-5 bg-blue-500 rounded-full flex items-center p-1">
+                      <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md transform translate-x-4"></div>
+                    </div>
+                  </div>
+                  <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 flex items-center space-x-2">
+                    <span>📞 Make a Test Call</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center">
+                  <div className="flex items-center space-x-2 w-1/3">
+                    <span className="text-gray-700">Enable Virtual Number Filtering</span>
+                    <span className="text-gray-400">ⓘ</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="w-10 h-5 bg-gray-300 rounded-full flex items-center p-1">
+                      <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
           {/* Request Configuration */}
-          <div className="space-y-4 pt-4">
+          <div className="space-y-4">
             <h3 className="font-bold text-gray-800">Request Configuration</h3>
 
             <div className="flex items-center mt-2">
@@ -86,9 +94,9 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
                 <span className="text-gray-700">Request Method</span>
                 <span className="text-gray-400">ⓘ</span>
               </div>
-              <div className="flex-1 flex border rounded-md overflow-hidden bg-gray-50 w-48">
-                <button className="px-4 py-1.5 border-r text-gray-600 flex-1">Get</button>
-                <button className="px-4 py-1.5 bg-blue-500 text-white font-medium flex-1 shadow-inner">Post</button>
+              <div className="flex-1 flex border rounded-md overflow-hidden bg-gray-50">
+                <button className="px-4 py-1.5 border-r text-gray-600 w-24">Get</button>
+                <button className="px-4 py-1.5 bg-blue-500 text-white font-medium w-24">Post</button>
               </div>
             </div>
 
@@ -223,7 +231,7 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
           </div>
 
           {/* Response Configuration */}
-          <div className="space-y-4 pt-6 border-t">
+          <div className="space-y-4 pt-6 pb-8">
             <h3 className="font-bold text-gray-800">Response Configuration</h3>
 
             <div className="flex items-center mt-2">
@@ -233,7 +241,7 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
               <div className="flex-1">
                 <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
                   <span>Json</span>
-                  <span className="text-gray-400 text-xs">▼</span>
+                  <span className="text-gray-400">▼</span>
                 </div>
               </div>
             </div>
@@ -245,7 +253,7 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
               <div className="flex-1">
                 <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
                   <span>Key/Value</span>
-                  <span className="text-gray-400 text-xs">▼</span>
+                  <span className="text-gray-400">▼</span>
                 </div>
               </div>
             </div>
@@ -282,7 +290,7 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
               <div className="flex-1">
                 <div className="w-1/2 border rounded-md p-2 bg-white text-gray-700 flex justify-between items-center cursor-not-allowed">
                   <span>Application Form</span>
-                  <span className="text-gray-400 text-xs">▼</span>
+                  <span className="text-gray-400">▼</span>
                 </div>
               </div>
             </div>
@@ -297,13 +305,6 @@ export default function SmartpingConfigView({ configData, agentNumber }: Smartpi
                   <div className="bg-white w-3.5 h-3.5 rounded-full shadow-md"></div>
                 </div>
               </div>
-            </div>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <button className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
-                Save
-              </button>
             </div>
           </div>
         </div>

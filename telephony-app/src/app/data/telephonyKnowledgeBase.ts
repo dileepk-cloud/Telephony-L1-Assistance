@@ -439,17 +439,17 @@ export const TELEPHONY_KNOWLEDGE_INDEX: TelephonySearchItem[] = [
     title: 'MCUBE Softphone Integration',
     tabId: 'mcube',
     tabLabel: 'MCUBE',
-    keywords: ['mcube', 'softphone', 'restmcube', 'exenumber', 'custnumber', 'refid', 'refurl', 'bearer token'],
-    summary: 'Requires C2C URL (config.mcube.com/Restmcube-api/campaign), exenumber -> Agent Number, custnumber -> Applicant Mobile No, refid -> Lead ID, refurl. Default parameter type is string.'
+    keywords: ['mcube', 'softphone', 'restmcube', 'exenumber', 'custnumber', 'refid', 'refurl', 'bearer token', 'succ', 'status succ'],
+    summary: 'Requires C2C URL (https://api.mcube.com/Restmcube-api/outbound-calls), exenumber -> Agent Number, custnumber -> Applicant Mobile No, refid -> Lead ID, refurl -> 1. Response parameter: status -> succ.'
   },
   {
     id: 'vnd-smartping',
     category: 'Vendor Guide',
-    title: 'SmartPing (Hardphone & Campaign Dialing)',
+    title: 'SmartPing (Hardphone, Campaign & Hybrid CC)',
     tabId: 'smartping-hard',
     tabLabel: 'SmartPing',
-    keywords: ['smartping', 'hardphone', 'campaign', 'token', 'user id', 'location_id', 'agent-wise'],
-    summary: 'Hardphone uses User ID + Token with Integer/String parameter types. Campaign mode supports either Agent-wise or Non-Agent-wise push.'
+    keywords: ['smartping', 'smartping_cc', 'smartping cc', 'hardphone', 'campaign', 'hybrid', 'token', 'user id', 'location_id', 'agent-wise', 'new call created', 'status 1'],
+    summary: 'Hardphone uses User ID + Token. Hybrid CC uses Click to Call with token & location_id. Hybrid outbound response matching: status -> 1, message -> New call Created., error -> null.'
   },
   {
     id: 'vnd-knowlarity',

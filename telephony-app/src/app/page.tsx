@@ -47,7 +47,7 @@ export default function Home() {
   const [myoperatorCtcUrl, setMyoperatorCtcUrl] = useState('');
   const [myoperatorCompanyId, setMyoperatorCompanyId] = useState('');
   const [myoperatorSecretToken, setMyoperatorSecretToken] = useState('');
-  const [myoperatorType, setMyoperatorType] = useState('1');
+  const [myoperatorType, setMyoperatorType] = useState('');
   const [myoperatorPublicIvrId, setMyoperatorPublicIvrId] = useState('');
   const [myoperatorApiKey, setMyoperatorApiKey] = useState('');
   const [myoperatorUserId, setMyoperatorUserId] = useState('');
@@ -65,6 +65,7 @@ export default function Home() {
   const [ozonetelUserName, setOzonetelUserName] = useState('');
   const [ozonetelAgentId, setOzonetelAgentId] = useState('');
   const [ozonetelCampaignName, setOzonetelCampaignName] = useState('');
+  const [ozonetelDid, setOzonetelDid] = useState('');
   const [campaignDetails, setCampaignDetails] = useState('');
   const [knowlarityUrl, setKnowlarityUrl] = useState('');
   const [knowlarityKNumber, setKnowlarityKNumber] = useState('');
@@ -321,7 +322,8 @@ export default function Home() {
             userName: ozonetelUserName,
             agentId: ozonetelAgentId,
             campaignName: ozonetelCampaignName,
-            mode: ozonetelCtcUrl.includes('PhoneManualDial') ? 'PhoneManualDial' : 'AgentManualDial'
+            did: ozonetelDid,
+            mode: ozonetelCtcUrl.toLowerCase().includes('phonemanualdial') ? 'PhoneManualDial' : 'AgentManualDial'
           }
         });
       } else {
@@ -436,8 +438,8 @@ export default function Home() {
         setLoading(false);
         return;
       } else if (mcubeTwoConfigType === 'Campaign') {
-        if (!mcubeTwoCampaignUrl.trim() || !mcubeTwoCampaignList.trim() || !mcubeTwoCampaignType.trim() || !mcubeTwoAuth.trim()) {
-          setError('Please provide Campaign Dialer URL, Campaign List, Campaign type, and Authorization.');
+        if (!mcubeTwoCampaignUrl.trim() || !mcubeTwoCampaignList.trim() || !mcubeTwoAuth.trim()) {
+          setError('Please provide Campaign Dialer URL, Campaign List, and Authorization.');
           return;
         }
         if (/\s/.test(mcubeTwoCampaignUrl)) {
@@ -909,6 +911,7 @@ export default function Home() {
                   setTatatelAuth('');
                   setAcefoneUrl('');
                   setAcefoneAuth('');
+                  setMyoperatorType('');
                   setConfigData(null);
                   setError('');
                 }}
@@ -1266,6 +1269,18 @@ export default function Home() {
                           onChange={(e) => setOzonetelCampaignName(e.target.value)}
                         />
                       </div>
+                      {ozonetelCtcUrl.toLowerCase().includes('phonemanualdial') && (
+                        <div className="space-y-1.5">
+                          <label className="block text-xs font-semibold text-slate-700">DID (for PhoneManualDial)</label>
+                          <input
+                            type="text"
+                            className="w-full p-2.5 sm:p-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-xs font-mono shadow-2xs"
+                            placeholder="e.g. 918041763223"
+                            value={ozonetelDid}
+                            onChange={(e) => setOzonetelDid(e.target.value)}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -1367,7 +1382,7 @@ export default function Home() {
                         <input
                           type="text"
                           className="w-full p-2.5 sm:p-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-xs font-mono shadow-2xs"
-                          placeholder="e.g. http://mcube.vmc.in/api/outboundcall"
+                          placeholder="https://api.mcube.com/Restmcube-api/outbound-calls"
                           value={mcubeTwoCtcUrl}
                           onChange={(e) => setMcubeTwoCtcUrl(e.target.value)}
                         />
@@ -1377,7 +1392,7 @@ export default function Home() {
                         <input
                           type="text"
                           className="w-full p-2.5 sm:p-3 bg-white border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-xs font-mono shadow-2xs"
-                          placeholder="Enter Authorization"
+                          placeholder="ey.J0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
                           value={mcubeTwoAuth}
                           onChange={(e) => setMcubeTwoAuth(e.target.value)}
                         />

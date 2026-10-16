@@ -247,7 +247,7 @@ export default function McubeConfigView({ configData, agentNumber }: McubeConfig
               </div>
             </div>
 
-            <div className="flex items-center mt-4">
+            <div className="flex items-center mt-6">
               <div className="w-1/3">
                 <span className="text-gray-700">International Calling Enable</span>
               </div>
